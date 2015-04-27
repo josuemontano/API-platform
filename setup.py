@@ -19,7 +19,8 @@ requires = [
     'waitress',
     'psycopg2',
     'restless',
-    ]
+    'PyJWT',
+]
 
 setup(name='demonstrare',
       version='0.0',
@@ -45,4 +46,4 @@ setup(name='demonstrare',
       [paste.app_factory]
       main = demonstrare:main
       """,
-      )
+)
