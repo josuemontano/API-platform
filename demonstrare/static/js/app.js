@@ -1,5 +1,7 @@
-angular.module('demo', ['demo.controllers', 'demo.directives', 'ui.router'])
-    .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
+angular.module('demo', ['demo.controllers', 'demo.services', 'demo.directives', 'ui.router', 'ngResource'])
+    .config(['$resourceProvider', '$stateProvider', '$urlRouterProvider', function($resourceProvider, $stateProvider, $urlRouterProvider) {
+        $resourceProvider.defaults.stripTrailingSlashes = false;
+
         $stateProvider
         .state('home', {
             url:'/',
@@ -10,6 +12,11 @@ angular.module('demo', ['demo.controllers', 'demo.directives', 'ui.router'])
             url:'/login',
             templateUrl: 'static/ui/login.html',
             controller: 'LoginCtrl'
+        })
+        .state('dashboard', {
+            url:'/dashboard',
+            templateUrl: 'static/ui/dashboard/index.html',
+            controller: 'DashboardCtrl'
         });
         $urlRouterProvider.otherwise('/');
     }]);
