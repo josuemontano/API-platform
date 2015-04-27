@@ -55,3 +55,20 @@ docs/_build/
 
 # PyBuilder
 target/
+
+# PyCharm
+.idea
+
+#Sass
+.sass-cache
+
+# MAC OS X
+.DS_Store
+*/.DS_Store
+.DS_Store?
+__MACOSX
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
