@@ -2,10 +2,12 @@
     <div class="large-3 columns">
         <h2 class="title">API Demo</h2>
     </div>
-    <div class="large-6 columns">
+    <div class="large-9 columns" ng-controller="MenuCtrl">
         <ul auto-active>
             <li class="active"><a ui-sref="home">Home</a></li
-            ><li><a ui-sref="login">Login</a></li>
+            ><li ng-if="!isAuthenticated()"><a ui-sref="login">Login</a></li
+            ><li ng-if="isAuthenticated()"><a ui-sref="dashboard">Dashboard</a></li
+            ><li ng-if="isAuthenticated()"><a ui-sref="logout">Logout</a></li>
         </ul>
     </div>
 </div>
