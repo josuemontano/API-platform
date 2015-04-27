@@ -9,14 +9,20 @@
         <meta name="owner" content="Josue Montano, josuemontanoa@gmail">
         <link rel="shortcut icon" href="{{request.static_url('demonstrare:static/pyramid-16x16.png')}}">
 
-        <title>API demo</title>
-        
+        <title>Pyramid and AngularJS API demo</title>
+
+        <link href="{{request.static_url('demonstrare:static/css/foundation.min.css')}}" rel="stylesheet">
+        <link href="{{request.static_url('demonstrare:static/css/theme.min.css')}}" rel="stylesheet">
+
         <!--[if lt IE 9]>
             <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
             <script src="//oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
         <![endif]-->
     </head>
     <body>
+        <header>
+            {% include 'menu.html' %}
+        </header>
         <footer>
             <p>&copy; 2010 - {{year}} Josue Montano. All rights reserved.</p>
         </footer>
