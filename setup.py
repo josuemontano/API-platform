@@ -18,6 +18,7 @@ requires = [
     'zope.sqlalchemy',
     'waitress',
     'psycopg2',
+    'restless',
     ]
 
 setup(name='demonstrare',

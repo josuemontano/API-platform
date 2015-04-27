@@ -1,6 +1,6 @@
 angular.module('demo.services', ['ngResource'])
     .factory('Post', ['$resource', function($resource) {
-        return $resource('/api/posts/:postId/', {}, {
+        return $resource('/api/v1/posts/:postId/', {}, {
             query: {
                 method: 'GET',
                 isArray: true,

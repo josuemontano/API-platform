@@ -14,3 +14,11 @@ class Post(Base):
     created = Column(DateTime, nullable=False, default=datetime.utcnow)
     edited = Column(DateTime, default=datetime.utcnow)
     is_published = Column(Boolean, nullable=False, default=True)
+
+    @classmethod
+    def serializer(cls):
+        return {
+            'id': 'id',
+            'title': 'title',
+            'created': 'created',
+        }

@@ -1,3 +1,5 @@
+from demonstrare.resources.core import PostResource
+
 from pyramid.config import Configurator
 from sqlalchemy import engine_from_config
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -42,6 +44,8 @@ def config_jinja2(config):
 
 def config_routes(config):
     config.add_route('home', '/')
+    # REST Resources
+    PostResource.add_views(config, '/api/v1/posts/')
     config.scan()
 
 
