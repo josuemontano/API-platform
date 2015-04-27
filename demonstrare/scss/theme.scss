@@ -1,9 +1,17 @@
 // Colors
 // -------------------------------
 
-$light:                                 #FFFFFF;
+$light:                                 #DDD;
 $green:                                 #82D3C8;
-$dark:                                  #94B3AF;
+$dark:                                  #333;
+
+
+// General
+// -------------------------------
+a, p, input {
+    color:                              $dark;
+}
+
 
 // Header
 // -------------------------------
@@ -11,28 +19,32 @@ $dark:                                  #94B3AF;
 header {
     margin-bottom:                      3em;
 
+    .title {
+        color:                          $dark;
+    }
+
     ul {
         margin:                         0;
         text-align:                     right;
         
         li {
             display:                    inline-block;
-            margin:                     1.2em 0 0 0.5em;
+            margin:                     1.2em 0 0 1.5em;
 
             a {
-                padding:                0.5em 1em;
+                padding:                0.5em 0;
                 color:                  $light !important;
                 text-transform:         uppercase;
                 transition:             all 0.2s ease-in;
 
                 &:hover {
-                    border-bottom:      1px solid $green;
+                    border-bottom:      2px solid $green;
                 }
             }
 
             &.active {
                 a {
-                    background-color:   $green;
+                    border-bottom:      2px solid $green;
                 }
             }
         }

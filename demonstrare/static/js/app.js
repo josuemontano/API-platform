@@ -1,4 +1,4 @@
-angular.module('demo', ['demo.controllers', 'ui.router'])
+angular.module('demo', ['demo.controllers', 'demo.directives', 'ui.router'])
     .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
         $stateProvider
         .state('home', {
