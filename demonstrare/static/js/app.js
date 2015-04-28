@@ -3,11 +3,11 @@ angular.module('demo', ['demo.controllers', 'demo.services', 'demo.directives', 
         $resourceProvider.defaults.stripTrailingSlashes = false;
 
         $authProvider.facebook({
-            clientId: '439130886253368',
+            clientId: '0000000000000',
             redirectUri: window.location.origin + '/auth/facebook',
         });
         $authProvider.google({
-            clientId: '388525728293-bu96shbpa47dpc92efgsemsd6ftu7gj7.apps.googleusercontent.com',
+            clientId: '1073147924054-vfo1c5atj8j84u2170smt863554m36br.apps.googleusercontent.com',
             redirectUri: window.location.origin + '/auth/google',
         });
         $authProvider.loginRedirect = '/dashboard';
