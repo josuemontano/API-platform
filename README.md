@@ -1,11 +1,16 @@
 # API Starter
 [![Build Status](http://img.shields.io/travis/josuemontano/api-starter.svg?style=flat)](https://travis-ci.org/josuemontano/api-starter)
-**Live Demo:** [http://api-hanovit.rhcloud.com](http://api-hanovit.rhcloud.com)
+*Live Demo:* [https://api-hanovit.rhcloud.com](https://api-hanovit.rhcloud.com)
 ---
 
 This project was built to demonstrate (thus the pyramid project is called demonstrare) how to build a simple REST server with Pyramid and how to consume it with AngularJS. One of the key reasons to build this project was to show how to serve the client from Pyramid itself, so you don't have to run the client separately on a NodeJS server or whatever. Some may argue this is not a good practice, however, due to some infraestructure restrictions I often need to do it this way.
 
 I hope the project provides a good starter point for anyone doing some Pyramid and AngularJS magic. Happy coding!
+
+## Cool stuff...
+The server is built on top of [Pyramid](http://pylonsproject.org/projects/pyramid/about) (web development with style indeed). [Restless](http://restless.readthedocs.org) is integrated with Pyramid to serve the REST resources. And we make use of [PyJWT](https://github.com/jpadilla/pyjwt) in the auth module for token signing.
+
+The front end is an AngularJS application. The auth module has [Satellizer](https://github.com/sahat/satellizer) at its core, [AngularUI Router](https://github.com/angular-ui/ui-router) provides routing and ngResource for consuming the REST API.
 
 ## Database
 By default the project has a PostgreSQL connection configured. Change the `sqlalchemy.url` property in `development.ini` and `alembic.ini` to match your database settings. Make sure you have PostgreSQL in your PATH, psycopg2 requires it. If using [PostgresApp](http://postgresapp.com/), as I do, add these lines to your bash profile
