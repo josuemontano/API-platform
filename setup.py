@@ -20,6 +20,7 @@ requires = [
     'psycopg2',
     'restless',
     'PyJWT',
+    'requests',
 ]
 
 setup(name='demonstrare',
