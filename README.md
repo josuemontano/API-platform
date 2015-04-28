@@ -1,6 +1,8 @@
 # API Starter
 [![Build Status](http://img.shields.io/travis/josuemontano/api-starter.svg?style=flat)](https://travis-ci.org/josuemontano/api-starter)
-*Live Demo:* [https://api-hanovit.rhcloud.com](https://api-hanovit.rhcloud.com)
+
+**Live Demo:** [https://api-hanovit.rhcloud.com](https://api-hanovit.rhcloud.com)
+
 ---
 
 This project was built to demonstrate (thus the pyramid project is called demonstrare) how to build a simple REST server with Pyramid and how to consume it with AngularJS. One of the key reasons to build this project was to show how to serve the client from Pyramid itself, so you don't have to run the client separately on a NodeJS server or whatever. Some may argue this is not a good practice, however, due to some infraestructure restrictions I often need to do it this way.
