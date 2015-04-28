@@ -1,9 +1,11 @@
+sudo: false
 language: python
+
 python:
   - "3.2"
   - "3.3"
   - "3.4"
-# command to install dependencies
-install: "python setup.py install"
-# command to run tests
-script: nosetests
+
+install:
+  - python setup.py develop
+
