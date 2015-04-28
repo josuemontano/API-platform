@@ -34,7 +34,16 @@ angular.module('demo', ['demo.controllers', 'demo.services', 'demo.directives', 
         .state('dashboard', {
             url:'/dashboard',
             templateUrl: 'static/ui/dashboard/index.html',
-            controller: 'DashboardCtrl'
+            controller: 'DashboardCtrl',
+            authenticate: true
         });
         $urlRouterProvider.otherwise('/');
+    }])
+    .run(['$rootScope', '$state', '$auth', function ($rootScope, $state, $auth) {
+        $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
+            if (toState.authenticate && !$auth.isAuthenticated()) {
+                $state.transitionTo('login');
+                event.preventDefault();
+            }
+        })
     }]);
