@@ -1,5 +1,5 @@
 from demonstrare.auth.jwt import parse_token
-from demonstrare.models import Post
+from demonstrare.models.core import Post
 from restless.preparers import FieldsPreparer
 from restless.pyr import PyramidResource
 

@@ -2,7 +2,7 @@ import json
 import requests
 
 from demonstrare.auth.jwt import create_token
-from demonstrare.models import User
+from demonstrare.models.core import User
 
 from pyramid.view import view_config
 
@@ -35,3 +35,11 @@ def oauth2_google(request):
         error_dict = {'error': 'User not found'}
         request.response.status = 400
         return {'errors': error_dict}
+
+
+@view_config(route_name='oauth2-facebook', renderer='json', request_method='POST')
+def oauth2_facebook(request):
+    # TODO: Implement Facebook integration
+    error_dict = {'error': 'User not found'}
+    request.response.status = 400
+    return {'errors': error_dict}
