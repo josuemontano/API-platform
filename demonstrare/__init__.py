@@ -45,6 +45,7 @@ def config_jinja2(config):
 def config_routes(config):
     config.add_route('home', '/')
     config.add_route('oauth2-google', '/auth/google')
+    config.add_route('oauth2-facebook', '/auth/facebook')
     # REST Resources
     PostResource.add_views(config, '/api/v1/posts/')
     config.scan()
