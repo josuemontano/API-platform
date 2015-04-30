@@ -10,4 +10,4 @@ install:
   - python setup.py develop
 
 script:
-  - echo foo
+  - python setup.py test -q
