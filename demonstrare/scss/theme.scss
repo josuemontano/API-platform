@@ -9,7 +9,7 @@ $dark:                                  #333;
 // General
 // -------------------------------
 
-@import url(http://fonts.googleapis.com/css?family=Lato:400,700);
+@import url(https://fonts.googleapis.com/css?family=Lato:400,700);
 
 a, p, input, button {
     color:                              $dark;
@@ -26,6 +26,10 @@ h1, h2, h3, h4, h5, h6 {
     font-style:                         normal;
     -webkit-font-smoothing:             antialiased;
     -moz-osx-font-smoothing:            grayscale;
+}
+
+[ng-cloak] {
+    display:                            none !important;
 }
 
 
