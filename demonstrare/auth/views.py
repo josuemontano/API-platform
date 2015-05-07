@@ -27,11 +27,11 @@ def oauth2_google(request):
     r = requests.get(people_api_url, headers=headers)
     profile = json.loads(r.text)
 
-    user = request.db.query(User).filter_by(google=profile['sub']).first()
+    user = request.db_session.query(User).filter_by(google=profile['sub']).first()
     if user is None:
         user = User(display_name=profile['given_name'], google=profile['sub'])
-        request.db.add(user)
-        request.db.flush()
+        request.db_session.add(user)
+        request.db_session.flush()
     
     token = create_token(user)
     return dict(token=token)

@@ -11,8 +11,10 @@ class PostResource(SecuredResource):
 
     # GET /posts/
     def list(self):
-        return self.request.db.query(Post).filter(Post.is_published == True).order_by('created desc').all()
+        db_session = self.request.db_session
+        return db_session.query(Post).filter(Post.is_published == True).order_by('created desc').all()
 
     # GET /posts/<pk>
     def detail(self, pk):
-        return self.request.db.query(Post).get(pk)
+        db_session = self.request.db_session
+        return db_session.query(Post).get(pk)
