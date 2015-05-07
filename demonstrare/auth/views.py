@@ -28,13 +28,13 @@ def oauth2_google(request):
     profile = json.loads(r.text)
 
     user = request.db.query(User).filter_by(google=profile['sub']).first()
-    if user:
-        token = create_token(user)
-        return dict(token=token)
-    else:
-        error_dict = {'error': 'User not found'}
-        request.response.status = 400
-        return {'errors': error_dict}
+    if user is None:
+        user = User(display_name=profile['given_name'], google=profile['sub'])
+        request.db.add(user)
+        request.db.flush()
+    
+    token = create_token(user)
+    return dict(token=token)
 
 
 @view_config(route_name='oauth2-facebook', renderer='json', request_method='POST')
