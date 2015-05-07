@@ -1,4 +1,4 @@
-from demonstrare.resources.core import PostResource
+from demonstrare.resources.core import PostResource, ProfileResource
 
 from pyramid.config import Configurator
 from sqlalchemy import engine_from_config
@@ -30,6 +30,7 @@ def config_routes(config):
     config.add_route('oauth2-facebook', '/auth/facebook')
     # REST Resources
     PostResource.add_views(config, '/api/v1/posts/')
+    ProfileResource.add_views(config, '/api/v1/profile/')
     config.scan()
 
 
