@@ -10,7 +10,7 @@ class ViewTests(unittest.TestCase):
     def tearDown(self):
         testing.tearDown()
 
-    def test_my_view(self):
+    def test_index(self):
         from .views import index
         request = testing.DummyRequest()
         info = index(request)
