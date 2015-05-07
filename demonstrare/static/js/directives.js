@@ -9,7 +9,6 @@ angular.module('demo.directives', [])
                     if (path) {
                         angular.forEach(element.find('li'), function (li) {
                             var anchor = li.querySelector('a');
-                            console.log(path + '(?=\\?|/|$)');
                             if (anchor.href.match(path + '(?=\\?|courses/1|$)')) {
                                 angular.element(li).addClass('active');
                             } else {
