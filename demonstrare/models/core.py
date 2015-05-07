@@ -9,16 +9,13 @@ class User(Base):
     __tablename__ = 'users'
     
     id = Column(Integer, primary_key=True, autoincrement=True)
-    email = Column(String(150), unique=True, nullable=False)
-    password = Column(String(150))
     display_name = Column(String(150))
     facebook = Column(String(120))
     google = Column(String(120))
     twitter = Column(String(120))
 
-    def __init__(self, email=None, facebook=None, google=None, twitter=None):
-        if email:
-            self.email = email.lower()
+    def __init__(self, display_name, facebook=None, google=None, twitter=None):
+        self.display_name = display_name
         if facebook:
             self.facebook = facebook
         if google:
