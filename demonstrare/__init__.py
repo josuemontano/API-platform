@@ -1,22 +1,6 @@
 from demonstrare.resources.core import PostResource, ProfileResource
 
 from pyramid.config import Configurator
-from sqlalchemy import engine_from_config
-from sqlalchemy.orm import sessionmaker
-from zope.sqlalchemy import register
-
-
-def config_db(config, settings):
-    """ Add db session to request
-        https://metaclassical.com/what-the-zope-transaction-manager-means-to-me-and-you/
-    """
-    engine = engine_from_config(settings, prefix='sqlalchemy.')
-    maker = sessionmaker()
-    register(maker)
-    maker.configure(bind=engine)
-    # The reify parameter is used for putting the result of a method after the first call.
-    # The function won't call second time ever.
-    config.add_request_method(lambda request: maker(), 'db_session', reify=True)
 
 
 def config_jinja2(config):
@@ -39,11 +23,11 @@ def main(global_config, **settings):
     """
     config = Configurator(settings=settings)
     
-    # TODO: Separate session into read-only and writable sessions for scalability (basis
-    # http://cjltsod.logdown.com/posts/257665-sqlalchemy-readonly-session-maker-with-pyramid)
-    config_db(config, settings)
-    config_jinja2(config)
-    config_routes(config)
+    config.include('demonstrare.models')
+    config.include('pyramid_jinja2')
+    config.add_renderer('.html', 'pyramid_jinja2.renderer_factory')
     config.add_static_view('static', 'static', cache_max_age=3600)
+    
+    config_routes(config)
 
     return config.make_wsgi_app()
