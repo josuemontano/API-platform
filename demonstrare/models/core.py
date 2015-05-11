@@ -1,11 +1,11 @@
-from .base import Base
+from .base import Base, ModelMixin
 
 from datetime import datetime
 from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, String, Text
 from sqlalchemy.orm import relationship
 
 
-class User(Base):
+class User(Base, ModelMixin):
     __tablename__ = 'users'
     
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -24,14 +24,12 @@ class User(Base):
             self.twitter = twitter
 
 
-class Post(Base):
+class Post(Base, ModelMixin):
     __tablename__ = 'posts'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     title = Column(String(100), nullable=False)
     body = Column(Text)
-    created = Column(DateTime, nullable=False, default=datetime.utcnow)
-    edited = Column(DateTime, default=datetime.utcnow)
     is_published = Column(Boolean, nullable=False, default=True)
 
     @classmethod
