@@ -4,8 +4,12 @@ from zope.sqlalchemy import register
 
 
 def includeme(config):
-    """ Add db session to request
-        https://metaclassical.com/what-the-zope-transaction-manager-means-to-me-and-you/
+    """
+    Add db session to request
+    https://metaclassical.com/what-the-zope-transaction-manager-means-to-me-and-you/
+
+    :param config: The pyramid ``Configurator`` object for your app.
+    :type config: ``pyramid.config.Configurator``
     """
     # TODO: Separate session into read-only and writable sessions for scalability (basis
     # http://cjltsod.logdown.com/posts/257665-sqlalchemy-readonly-session-maker-with-pyramid)
