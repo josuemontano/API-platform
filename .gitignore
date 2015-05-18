@@ -71,3 +71,7 @@ __MACOSX
 Icon?
 ehthumbs.db
 Thumbs.db
+
+# NodeJS
+node_modules/
+npm-debug.log
