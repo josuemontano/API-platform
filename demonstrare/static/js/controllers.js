@@ -10,7 +10,14 @@ angular.module('demo.controllers', ['demo.services'])
     // Login & logout
     .controller('LoginCtrl', ['$scope', '$auth', function($scope, $auth) {
         $scope.authenticate = function(provider) {
-            $auth.authenticate(provider);
+            $auth.authenticate(provider)
+            .then(function(response) {
+            }, function(error) {
+                if (error.status === 400)
+                    $scope.error = 'You cannot login to this site. Request an account.';
+                else
+                    $scope.error = 'An unexpected problem occured, please try again.'
+            });
         };
     }])
     .controller('LogoutCtrl', ['$auth', function($auth) {

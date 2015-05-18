@@ -13,6 +13,10 @@
                         Sign In with Facebook
                     </button>
                 </div>
+                <div ng-if="error">
+                    <hr>
+                    <p class="small" ng-bind="error"></p>
+                </div>
             </div>
         </form>
     </div>
