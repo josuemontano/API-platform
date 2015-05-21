@@ -39,5 +39,13 @@ You may also deploy the app with WSGI locally using [mod_wsgi](https://modwsgi.r
 mod_wsgi-express start-server wsgi.py --port 6543
 ```
 
+The project has grunt tasks configured, so you need to do:
+```sh
+npm install
+grunt watch
+```
+
+Now you're ready to start developing and contributing!
+
 ## OpenShift
 You can deploy API Starter on [OpenShift](https://openshift.redhat.com) out of the box. When creating your application just fill the Source Code field with [https://github.com/josuemontano/api-starter](https://github.com/josuemontano/api-starter). All is left to you is the DB configuration as explained before.

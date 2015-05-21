@@ -1,12 +1,17 @@
 module.exports = function (grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
-        
+
         // Watch task config
         watch: {
             sass: {
                 files: "<%= pkg.name %>/scss/*.scss",
                 tasks: ['sass']
+            },
+
+            angularjs: {
+                files: "<%= pkg.name %>/static/js/app/**/*.js",
+                tasks: ['concat', 'uglify']
             }
         },
         // SASS task config
@@ -27,7 +32,7 @@ module.exports = function (grunt) {
                 separator: ';'
             },
             dist: {
-                src: ['<%= pkg.name %>/static/js/**/*.js'],
+                src: ['<%= pkg.name %>/static/js/app/**/*.js'],
                 dest: '<%= pkg.name %>/static/js/<%= pkg.name %>.js'
             }
         },
