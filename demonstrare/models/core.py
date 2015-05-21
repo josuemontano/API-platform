@@ -31,11 +31,3 @@ class Post(Base, ModelMixin):
     title = Column(String(100), nullable=False)
     body = Column(Text)
     is_published = Column(Boolean, nullable=False, default=True)
-
-    @classmethod
-    def serializer(cls):
-        return {
-            'id': 'id',
-            'title': 'title',
-            'created': 'created',
-        }

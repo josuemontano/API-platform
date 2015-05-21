@@ -18,13 +18,14 @@ requires = [
     'zope.sqlalchemy',
     'waitress',
     'psycopg2',
-    'restless',
+    'marshmallow',
     'PyJWT',
     'requests',
+    'alembic',
 ]
 
 setup(name='demonstrare',
-      version='1.0',
+      version='1.1',
       description='demonstrare',
       long_description=README + '\n\n' + CHANGES,
       classifiers=[
@@ -32,11 +33,11 @@ setup(name='demonstrare',
         "Framework :: Pyramid",
         "Topic :: Internet :: WWW/HTTP",
         "Topic :: Internet :: WWW/HTTP :: WSGI :: Application",
-        ],
-      author='',
-      author_email='',
+      ],
+      author='Josue Montano',
+      author_email='josuemontanoa@gmail.com',
       url='',
-      keywords='web pyramid pylons',
+      keywords='web pyramid pylons rest api angularjs',
       packages=find_packages(),
       include_package_data=True,
       zip_safe=False,
@@ -46,5 +47,4 @@ setup(name='demonstrare',
       entry_points="""\
       [paste.app_factory]
       main = demonstrare:main
-      """,
-)
+      """,)

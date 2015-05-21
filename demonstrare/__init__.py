@@ -1,20 +1,18 @@
-from demonstrare.resources.core import PostResource, ProfileResource
-
 from pyramid.config import Configurator
 
 
-def config_jinja2(config):
-    config.include('pyramid_jinja2')
-    config.add_renderer('.html', 'pyramid_jinja2.renderer_factory')
-
-
 def config_routes(config):
+    """
+        :param config: The pyramid ``Configurator`` object for your app.
+        :type config: ``pyramid.config.Configurator``
+    """
     config.add_route('home', '/')
     config.add_route('oauth2-google', '/auth/google')
     config.add_route('oauth2-facebook', '/auth/facebook')
     # REST Resources
-    PostResource.add_views(config, '/api/v1/posts/')
-    ProfileResource.add_views(config, '/api/v1/profile/')
+    config.add_route('posts', '/api/v1/posts')
+    config.add_route('post', '/api/v1/posts/{id}')
+
     config.scan()
 
 
