@@ -1,6 +1,6 @@
-angular.module('demo', ['demo.controllers', 'demo.services', 'demo.directives', 'ui.router', 'satellizer', 'ngResource'])
-    .config(['$resourceProvider', '$authProvider', '$stateProvider', '$urlRouterProvider', function($resourceProvider, $authProvider, $stateProvider, $urlRouterProvider) {
-        $resourceProvider.defaults.stripTrailingSlashes = false;
+angular.module('demo', ['demo.controllers', 'demo.directives', 'ui.router', 'satellizer', 'restangular'])
+    .config(['RestangularProvider', '$authProvider', '$stateProvider', '$urlRouterProvider', function(RestangularProvider, $authProvider, $stateProvider, $urlRouterProvider) {
+        RestangularProvider.setBaseUrl('/api/v1');
 
         $authProvider.facebook({
             clientId: '0000000000000',
@@ -8,7 +8,7 @@ angular.module('demo', ['demo.controllers', 'demo.services', 'demo.directives', 
         $authProvider.google({
             clientId: '388525728293-bu96shbpa47dpc92efgsemsd6ftu7gj7.apps.googleusercontent.com',
         });
-        $authProvider.loginRedirect = '/dashboard';
+        $authProvider.loginRedirect = '/dashboard/posts';
         $authProvider.loginUrl = '/login';
 
         $stateProvider
@@ -31,15 +31,22 @@ angular.module('demo', ['demo.controllers', 'demo.services', 'demo.directives', 
         // Dashboard (private)
         .state('dashboard', {
             url:'/dashboard',
+            abstract: true,
             templateUrl: 'static/ui/dashboard/index.html',
-            controller: 'DashboardCtrl',
-            authenticate: true
+            data: {
+                authenticate: true,
+            },
+        })
+        .state('dashboard.posts', {
+            url:'/posts',
+            templateUrl: 'static/ui/dashboard/posts.html',
+            controller: 'PostsCtrl',
         });
         $urlRouterProvider.otherwise('/');
     }])
     .run(['$rootScope', '$state', '$auth', function ($rootScope, $state, $auth) {
-        $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
-            if (toState.authenticate && !$auth.isAuthenticated()) {
+        $rootScope.$on('$stateChangeStart', function(event, toState) {
+            if (toState.data && toState.data.authenticate && !$auth.isAuthenticated()) {
                 $state.transitionTo('login');
                 event.preventDefault();
             }

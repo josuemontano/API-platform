@@ -1,4 +1,4 @@
-angular.module('demo.controllers', ['demo.services'])
+angular.module('demo.controllers', ['restangular'])
     .controller('MenuCtrl', ['$scope', '$auth', function($scope, $auth) {
         $scope.isAuthenticated = function() {
             return $auth.isAuthenticated();
@@ -16,7 +16,7 @@ angular.module('demo.controllers', ['demo.services'])
                 if (error.status === 400)
                     $scope.error = 'You cannot login to this site. Request an account.';
                 else
-                    $scope.error = 'An unexpected problem occured, please try again.'
+                    $scope.error = 'An unexpected problem occured, please try again.';
             });
         };
     }])
@@ -26,8 +26,6 @@ angular.module('demo.controllers', ['demo.services'])
         $auth.logout();
     }])
     // Dashboard (private)
-    .controller('DashboardCtrl', ['$scope', 'Post', function($scope, Post) {
-        Post.query(function(data) {
-            $scope.posts = data;
-        });
+    .controller('PostsCtrl', ['$scope', 'Restangular', function($scope, Restangular) {
+        $scope.posts = Restangular.all('posts').getList().$object;
     }]);

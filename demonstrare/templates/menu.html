@@ -6,7 +6,7 @@
         <ul auto-active ng-cloak>
             <li class="active"><a ui-sref="home">Home</a></li
             ><li ng-if="!isAuthenticated()"><a ui-sref="login">Login</a></li
-            ><li ng-if="isAuthenticated()"><a ui-sref="dashboard">Dashboard</a></li
+            ><li ng-if="isAuthenticated()"><a ui-sref="dashboard.posts">Dashboard</a></li
             ><li ng-if="isAuthenticated()"><a ui-sref="logout">Logout</a></li>
         </ul>
     </div>

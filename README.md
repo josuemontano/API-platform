@@ -12,7 +12,7 @@ I hope the project provides a good starter point for anyone doing some Pyramid a
 ## Cool stuff...
 The server is built on top of [Pyramid](http://pylonsproject.org/projects/pyramid/about) (web development with style indeed). [Restless](http://restless.readthedocs.org) is integrated with Pyramid to serve the REST resources. And we make use of [PyJWT](https://github.com/jpadilla/pyjwt) in the auth module for token signing.
 
-The front end is an AngularJS application. The auth module has [Satellizer](https://github.com/sahat/satellizer) at its core, [AngularUI Router](https://github.com/angular-ui/ui-router) provides routing and ngResource for consuming the REST API.
+The front end is an AngularJS application. The auth module has [Satellizer](https://github.com/sahat/satellizer) at its core, [AngularUI Router](https://github.com/angular-ui/ui-router) provides routing and Restangular for consuming the REST API.
 
 ## Database
 By default the project has a PostgreSQL connection configured. Change the `sqlalchemy.url` property in `development.ini` and `alembic.ini` to match your database settings. Make sure you have PostgreSQL in your PATH, psycopg2 requires it. If using [PostgresApp](http://postgresapp.com/), as I do, add these lines to your bash profile
