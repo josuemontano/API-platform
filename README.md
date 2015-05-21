@@ -10,9 +10,9 @@ This project was built to demonstrate (thus the pyramid project is called demons
 I hope the project provides a good starter point for anyone doing some Pyramid and AngularJS magic. Happy coding!
 
 ## Cool stuff...
-The server is built on top of [Pyramid](http://pylonsproject.org/projects/pyramid/about) (web development with style indeed). [Restless](http://restless.readthedocs.org) is integrated with Pyramid to serve the REST resources. And we make use of [PyJWT](https://github.com/jpadilla/pyjwt) in the auth module for token signing.
+The server is built on top of [Pyramid](http://trypyramid.com) (web development with style indeed). Pyramid itself exposes and serves the REST resources. And we make use of [PyJWT](https://github.com/jpadilla/pyjwt) in the auth module for JSON Web Token authentication.
 
-The front end is an AngularJS application. The auth module has [Satellizer](https://github.com/sahat/satellizer) at its core, [AngularUI Router](https://github.com/angular-ui/ui-router) provides routing and Restangular for consuming the REST API.
+The front end is an AngularJS 1.x application. The auth module has [Satellizer](https://github.com/sahat/satellizer) at its core, [AngularUI Router](https://github.com/angular-ui/ui-router) provides routing and [Restangular](https://github.com/mgonto/restangular) for consuming the REST API.
 
 ## Database
 By default the project has a PostgreSQL connection configured. Change the `sqlalchemy.url` property in `development.ini` and `alembic.ini` to match your database settings. Make sure you have PostgreSQL in your PATH, psycopg2 requires it. If using [PostgresApp](http://postgresapp.com/), as I do, add these lines to your bash profile
@@ -24,7 +24,7 @@ export DYLD_LIBRARY_PATH=/Applications/Postgres.app/Contents/MacOS/lib
 It should be straightforward to change to the database of your preference.
 
 ## Running
-Migrations are provided by Alembic, you need to run them the first time. On the other hand, the app will look for an env variable called `JWT_SECRET`, make sure have set it. The following example assumes you have a python3 virtual enviroment `$VENV`
+Migrations are provided by [Alembic](http://alembic.readthedocs.org), you need to run them the first time. On the other hand, the app will look for an env variable called `JWT_SECRET`, make sure have set it. The following example assumes you have a python3 virtual enviroment `$VENV`
 ```sh
 export JWT_SECRET='secret'
 cd $VENV/api-starter
