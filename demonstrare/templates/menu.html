@@ -3,11 +3,11 @@
         <h2 class="title">API Demo</h2>
     </div>
     <div class="large-9 columns" ng-controller="MenuCtrl">
-        <ul auto-active ng-cloak>
-            <li class="active"><a ui-sref="home">Home</a></li
-            ><li ng-if="!isAuthenticated()"><a ui-sref="login">Login</a></li
-            ><li ng-if="isAuthenticated()"><a ui-sref="dashboard.posts">Dashboard</a></li
-            ><li ng-if="isAuthenticated()"><a ui-sref="logout">Logout</a></li>
+        <ul ng-cloak>
+            <li ui-sref-active="active"><a ui-sref="home">Home</a></li
+            ><li ui-sref-active="active" ng-if="isAuthenticated()"><a ui-sref="dashboard.posts">Dashboard</a></li
+            ><li ui-sref-active="active" ng-if="isAuthenticated()"><a ui-sref="logout">Logout</a></li
+            ><li ui-sref-active="active" ng-if="!isAuthenticated()"><a ui-sref="login">Login</a></li>
         </ul>
     </div>
 </div>

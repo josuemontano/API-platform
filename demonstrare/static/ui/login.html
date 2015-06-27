@@ -4,18 +4,18 @@
             <h3 class="title">Login</h3>
             <div class="card-content">
                 <div class="social">
-                    <button ng-click="authenticate('google')" class="button small expand google">
+                    <button ng-click="vm.authenticate('google')" class="button small expand google">
                         <img src="/static/images/GooglePlus-logo_64.png" alt="Google">
                         Sign In with Google
                     </button>
-                    <button ng-click="authenticate('facebook')" class="button small expand facebook">
+                    <button ng-click="vm.authenticate('facebook')" class="button small expand facebook">
                         <img src="/static/images/FB-f-Logo__blue_50.png" alt="Facebook">
                         Sign In with Facebook
                     </button>
                 </div>
                 <div ng-if="error">
                     <hr>
-                    <p class="small" ng-bind="error"></p>
+                    <p class="small" ng-bind="vm.error"></p>
                 </div>
             </div>
         </form>

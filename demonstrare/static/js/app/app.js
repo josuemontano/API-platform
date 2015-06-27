@@ -1,4 +1,4 @@
-angular.module('demo', ['demo.controllers', 'demo.directives', 'ui.router', 'satellizer', 'restangular'])
+angular.module('demo', ['demo.controllers', 'demo.services', 'ui.router', 'satellizer', 'restangular'])
     .config(['RestangularProvider', '$authProvider', '$stateProvider', '$urlRouterProvider', function(RestangularProvider, $authProvider, $stateProvider, $urlRouterProvider) {
         RestangularProvider.setBaseUrl('/api/v1');
 
@@ -15,13 +15,15 @@ angular.module('demo', ['demo.controllers', 'demo.directives', 'ui.router', 'sat
         .state('home', {
             url:'/',
             templateUrl: 'static/ui/home.html',
-            controller: 'HomeCtrl'
+            controller: 'HomeCtrl',
+            controllerAs: 'vm',
         })
         // Login & logout
         .state('login', {
             url:'/login',
             templateUrl: 'static/ui/login.html',
-            controller: 'LoginCtrl'
+            controller: 'LoginCtrl',
+            controllerAs: 'vm',
         })
         .state('logout', {
             url:'/logout',
@@ -41,6 +43,12 @@ angular.module('demo', ['demo.controllers', 'demo.directives', 'ui.router', 'sat
             url:'/posts',
             templateUrl: 'static/ui/dashboard/posts.html',
             controller: 'PostsCtrl',
+            controllerAs: 'vm',
+            resolve: {
+                posts: ['Posts', function (Posts) {
+                    return Posts.getList();
+                }]
+            },
         });
         $urlRouterProvider.otherwise('/');
     }])
