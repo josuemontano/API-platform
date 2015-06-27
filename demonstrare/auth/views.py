@@ -7,7 +7,7 @@ from pyramid.view import view_config
 from sqlalchemy.orm.exc import NoResultFound
 
 from demonstrare.auth.jwt import create_token
-from demonstrare.models.core import User
+from demonstrare.models.auth import Role, User
 
 log = logging.getLogger(__name__)
 
@@ -110,7 +110,8 @@ def create_user(db_session, email, _google=None, _facebook=None, _live=None):
     log.info('Request to create user for email %s', email)
     user = db_session.query(User).filter_by(email=email).one()
     if user is None:
-        user = User(email)
+        role = db_session.query(Role).filter_by(is_default=True).one()
+        user = User(email, role)
         db_session.add(user)
 
     if _google is not None:

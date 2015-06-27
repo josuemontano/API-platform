@@ -1,13 +1,12 @@
 import logging
-
-from .base import BaseView, register_views
-
-from demonstrare.models.core import Post
-from demonstrare.schema.core import PostSchema
-
 from datetime import date
+
 from pyramid.view import view_config
 from sqlalchemy import desc
+
+from .base import BaseView, register_views
+from demonstrare.models.core import Post
+from demonstrare.schema.core import PostSchema
 
 log = logging.getLogger(__name__)
 
@@ -21,7 +20,7 @@ def index(request):
 class PostsView(BaseView):
     # GET /posts
     def list(self):
-        schema = PostSchema(many=True, only={'id', 'title'})
+        schema = PostSchema(many=True, only=('id', 'title'))
         ll = self.request.db_session.query(Post).filter_by(is_published=True).order_by(desc(Post.created)).all()
         return schema.dump(ll).data
 

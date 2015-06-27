@@ -14,6 +14,7 @@ fileConfig(config.config_file_name)
 # add your model's MetaData object here
 # for 'autogenerate' support
 from demonstrare.models.base import Base
+from demonstrare.models import auth
 from demonstrare.models import core
 target_metadata = Base.metadata
 
@@ -57,7 +58,8 @@ def run_migrations_online():
     with connectable.connect() as connection:
         context.configure(
             connection=connection,
-            target_metadata=target_metadata
+            target_metadata=target_metadata,
+            compare_type=True,
         )
 
         with context.begin_transaction():

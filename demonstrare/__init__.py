@@ -1,4 +1,8 @@
+from pyramid.authorization import ACLAuthorizationPolicy
 from pyramid.config import Configurator
+
+from demonstrare.auth.policy import JWTAuthenticationPolicy
+from demonstrare.views.security import groupfinder, RootFactory
 
 
 def config_routes(config):
@@ -22,14 +26,17 @@ def config_routes(config):
 def main(global_config, **settings):
     """ This function returns a Pyramid WSGI application.
     """
-    config = Configurator(settings=settings)
-    
+    config = Configurator(settings=settings,
+                          authentication_policy=JWTAuthenticationPolicy(callback=groupfinder),
+                          authorization_policy=ACLAuthorizationPolicy(),
+                          root_factory=RootFactory)
+
     config.include('demonstrare.models')
     config.include('pyramid_jinja2')
 
     config.add_renderer('.html', 'pyramid_jinja2.renderer_factory')
     config.add_static_view('static', 'static', cache_max_age=3600)
-    
+
     config_routes(config)
 
     return config.make_wsgi_app()
