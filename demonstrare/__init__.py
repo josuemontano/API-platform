@@ -32,6 +32,7 @@ def main(global_config, **settings):
                           root_factory=RootFactory)
 
     config.include('demonstrare.models')
+    config.include('demonstrare.tasks')
     config.include('pyramid_jinja2')
 
     config.add_renderer('.html', 'pyramid_jinja2.renderer_factory')

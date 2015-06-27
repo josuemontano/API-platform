@@ -22,6 +22,7 @@ requires = [
     'PyJWT',
     'requests',
     'alembic',
+    'apscheduler',
 ]
 
 setup(name='demonstrare',
