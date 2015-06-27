@@ -9,13 +9,14 @@ class User(Base, ModelMixin):
     __tablename__ = 'users'
     
     id = Column(Integer, primary_key=True, autoincrement=True)
-    display_name = Column(String(150))
+    email = Column(String(250), nullable=False, unique=True)
     facebook = Column(String(120))
     google = Column(String(120))
     twitter = Column(String(120))
 
-    def __init__(self, display_name, facebook=None, google=None, twitter=None):
-        self.display_name = display_name
+    def __init__(self, email, facebook=None, google=None, twitter=None):
+        self.email = email
+        
         if facebook:
             self.facebook = facebook
         if google:

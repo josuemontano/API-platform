@@ -1,10 +1,15 @@
 import json
+import logging
+
 import requests
+from pyramid.httpexceptions import HTTPNotFound
+from pyramid.view import view_config
+from sqlalchemy.orm.exc import NoResultFound
 
 from demonstrare.auth.jwt import create_token
 from demonstrare.models.core import User
 
-from pyramid.view import view_config
+log = logging.getLogger(__name__)
 
 
 @view_config(route_name='oauth2-google', renderer='json', request_method='POST')
@@ -26,12 +31,13 @@ def google(request):
     r = requests.get(people_api_url, headers=headers)
     profile = json.loads(r.text)
 
-    user = request.db_session.query(User).filter_by(google=profile['sub']).first()
-    if user is None:
-        user = User(display_name=profile['given_name'], google=profile['sub'])
-        request.db_session.add(user)
-        request.db_session.flush()
-    
+    try:
+        user = request.db_session.query(User).filter_by(google=profile['sub']).one()
+    except NoResultFound:
+        user = create_user(request.db_session, profile['email'], _google=profile['sub'])
+        if user is None:
+            raise HTTPNotFound()
+
     token = create_token(user)
     return dict(token=token)
 
@@ -55,11 +61,29 @@ def facebook(request):
     r = requests.get(graph_api_url, params=access_token)
     profile = json.loads(r.text)
 
-    user = request.db_session.query(User).filter_by(google=profile['sub']).first()
-    if user is None:
-        user = User(display_name=profile['given_name'], facebook=profile['sub'])
-        request.db_session.add(user)
-        request.db_session.flush()
+    try:
+        user = request.db_session.query(User).filter_by(facebook=profile['id']).one()
+    except NoResultFound:
+        user = create_user(request.db_session, profile['email'], _facebook=profile['id'])
+        if user is None:
+            raise HTTPNotFound()
 
     token = create_token(user)
     return dict(token=token)
+
+
+def create_user(db_session, email, _google=None, _facebook=None, _live=None):
+    log.info('Request to create user for email %s', email)
+    user = db_session.query(User).filter_by(email=email).one()
+    if user is None:
+        user = User(email)
+        db_session.add(user)
+
+    if _google is not None:
+        user.google = _google
+    elif _facebook is not None:
+        user.facebook = _facebook
+    elif _live is not None:
+        user.live = _live
+
+    return user
