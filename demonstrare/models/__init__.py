@@ -17,7 +17,14 @@ def includeme(config):
     engine = engine_from_config(settings)
     
     maker = sessionmaker()
-    register(maker)
     maker.configure(bind=engine)
 
-    config.add_request_method(lambda request: maker(), 'db_session', reify=True)
+    config.registry['db_sessionmaker'] = maker
+
+    config.add_request_method(lambda request: get_session(request, maker), 'db_session', reify=True)
+
+
+def get_session(request, maker):
+    session = maker()
+    register(session, transaction_manager=request.tm)
+    return session
