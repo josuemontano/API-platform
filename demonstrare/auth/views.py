@@ -108,8 +108,9 @@ def live(request):
 
 def create_user(db_session, email, _google=None, _facebook=None, _live=None):
     log.info('Request to create user for email %s', email)
-    user = db_session.query(User).filter_by(email=email).one()
-    if user is None:
+    try:
+        user = db_session.query(User).filter_by(email=email).one()
+    except NoResultFound:
         role = db_session.query(Role).filter_by(is_default=True).one()
         user = User(email, role)
         db_session.add(user)
