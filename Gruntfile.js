@@ -5,7 +5,7 @@ module.exports = function (grunt) {
         // Watch task config
         watch: {
             sass: {
-                files: "<%= pkg.name %>/scss/*.scss",
+                files: "<%= pkg.name %>/static/scss/*.scss",
                 tasks: ['sass']
             },
 
@@ -22,7 +22,7 @@ module.exports = function (grunt) {
                     sourcemap: 'none',
                 },
                 files: {
-                    "<%= pkg.name %>/static/css/theme.min.css" : "<%= pkg.name %>/scss/theme.scss"
+                    "<%= pkg.name %>/static/css/theme.min.css" : "<%= pkg.name %>/static/scss/theme.scss"
                 }
             }
         },
@@ -39,7 +39,11 @@ module.exports = function (grunt) {
 
         uglify: {
             options: {
-                banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
+                banner: '/**'
+                        + '\n * <%= pkg.name %>'
+                        + '\n * @version <%= pkg.version %>'
+                        + '\n * @date <%= grunt.template.today("dd-mm-yyyy") %>'
+                        + '\n**/\n'
             },
             dist: {
                 files: {
