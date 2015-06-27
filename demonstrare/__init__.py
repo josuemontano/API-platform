@@ -3,12 +3,15 @@ from pyramid.config import Configurator
 
 def config_routes(config):
     """
-        :param config: The pyramid ``Configurator`` object for your app.
-        :type config: ``pyramid.config.Configurator``
+    Add home, auth routes and RESTful routes
+
+    :param config: The pyramid ``Configurator`` object for your app.
+    :type config: ``pyramid.config.Configurator``
     """
     config.add_route('home', '/')
     config.add_route('oauth2-google', '/auth/google')
     config.add_route('oauth2-facebook', '/auth/facebook')
+    config.add_route('oauth2-live', '/auth/live')
     # REST Resources
     config.add_route('posts', '/api/v1/posts')
     config.add_route('post', '/api/v1/posts/{id}')
@@ -23,6 +26,7 @@ def main(global_config, **settings):
     
     config.include('demonstrare.models')
     config.include('pyramid_jinja2')
+
     config.add_renderer('.html', 'pyramid_jinja2.renderer_factory')
     config.add_static_view('static', 'static', cache_max_age=3600)
     

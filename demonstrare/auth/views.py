@@ -72,6 +72,40 @@ def facebook(request):
     return dict(token=token)
 
 
+@view_config(route_name='oauth2-live', renderer='json', request_method='POST')
+def live(request):
+    body = request.body.decode("utf-8")
+    body = json.loads(body)
+
+    access_token_url = 'https://login.live.com/oauth20_token.srf'
+    profile_url = 'https://apis.live.net/v5.0/me?access_token='
+    payload = {
+        'client_id': request.json['clientId'],
+        'redirect_uri': request.json['redirectUri'],
+        'client_secret': request.registry.settings['LIVE_SECRET'],
+        'code': body['code'],
+        'grant_type': 'authorization_code',
+    }
+
+    # Step 1. Exchange authorization code for access token.
+    r = requests.post(access_token_url, data=payload)
+    token = json.loads(r.text)
+
+    # Step 2. Retrieve information about the current user.
+    r = requests.get(profile_url + token['access_token'])
+    profile = json.loads(r.text)
+
+    try:
+        user = request.db_session.query(User).filter_by(live=profile['id']).one()
+    except NoResultFound:
+        user = create_user(request.db_session, profile['emails']['account'], _live=profile['id'])
+        if user is None:
+            raise HTTPNotFound()
+
+    token = create_token(user)
+    return dict(token=token)
+
+
 def create_user(db_session, email, _google=None, _facebook=None, _live=None):
     log.info('Request to create user for email %s', email)
     user = db_session.query(User).filter_by(email=email).one()
