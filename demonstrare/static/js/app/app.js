@@ -1,4 +1,4 @@
-angular.module('demo', ['demo.controllers', 'demo.services', 'ui.router', 'satellizer', 'restangular'])
+angular.module('demo', ['demo.controllers', 'demo.services', 'ui.router', 'satellizer', 'restangular', 'angular-loading-bar'])
     .config(['RestangularProvider', '$authProvider', '$stateProvider', '$urlRouterProvider', function(RestangularProvider, $authProvider, $stateProvider, $urlRouterProvider) {
         RestangularProvider.setBaseUrl('/api/v1');
 

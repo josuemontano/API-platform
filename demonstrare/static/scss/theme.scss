@@ -164,3 +164,62 @@ footer {
         margin:                         0;
     }
 }
+
+
+// Loading bar
+// -------------------------------
+
+$barcolor:                              $green;
+
+#loading-bar {
+    pointer-events:                     none;
+    -webkit-pointer-events:             none;
+    -webkit-transition:                 350ms linear all;
+    -moz-transition:                    350ms linear all;
+    -o-transition:                      350ms linear all;
+    transition:                         350ms linear all;
+}
+
+#loading-bar.ng-enter,
+#loading-bar.ng-leave.ng-leave-active {
+    opacity:                            0;
+}
+
+#loading-bar.ng-enter.ng-enter-active,
+#loading-bar.ng-leave {
+    opacity:                            1;
+}
+
+#loading-bar .bar {
+    -webkit-transition: width           350ms;
+    -moz-transition: width              350ms;
+    -o-transition: width                350ms;
+    transition: width                   350ms;
+
+    background:                         $barcolor;
+    position:                           fixed;
+    z-index:                            10002;
+    bottom:                             0;
+    left:                               0;
+    width:                              100%;
+    height:                             4px;
+    border-bottom-right-radius:         1px;
+    border-top-right-radius:            1px;
+}
+
+/* Fancy blur effect */
+#loading-bar .peg {
+    position:                           absolute;
+    width:                              70px;
+    right:                              0;
+    top:                                0;
+    height:                             2px;
+    opacity:                            0.45;
+    -moz-box-shadow:                    $barcolor 1px 0 6px 1px;
+    -ms-box-shadow:                     $barcolor 1px 0 6px 1px;
+    -webkit-box-shadow:                 $barcolor 1px 0 6px 1px;
+    box-shadow:                         $barcolor 1px 0 6px 1px;
+    -moz-border-radius:                 100%;
+    -webkit-border-radius:              100%;
+    border-radius:                      100%;
+}
