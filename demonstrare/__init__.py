@@ -33,6 +33,7 @@ def main(global_config, **settings):
 
     config.include('demonstrare.models')
     config.include('demonstrare.tasks')
+    config.include('demonstrare.mailer')
     config.include('pyramid_jinja2')
 
     config.add_renderer('.html', 'pyramid_jinja2.renderer_factory')
