@@ -1,5 +1,6 @@
 import json
 import logging
+from datetime import datetime
 
 import requests
 from pyramid.httpexceptions import HTTPNotFound
@@ -107,13 +108,19 @@ def live(request):
 
 
 def create_user(db_session, email, _google=None, _facebook=None, _live=None):
+    """
+    :type db_session: ``sqlalchemy.orm.Session``
+    :return: Created or updated user
+    """
     log.info('Request to create user for email %s', email)
     try:
         user = db_session.query(User).filter_by(email=email).one()
+        user.edited = datetime.now()
     except NoResultFound:
         role = db_session.query(Role).filter_by(is_default=True).one()
         user = User(email, role)
         db_session.add(user)
+        db_session.flush()
 
     if _google is not None:
         user.google = _google
