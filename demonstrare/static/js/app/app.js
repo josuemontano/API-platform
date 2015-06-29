@@ -1,9 +1,20 @@
 angular.module('demo', ['demo.controllers', 'demo.services', 'ui.router', 'satellizer', 'restangular', 'angular-loading-bar'])
     .config(['RestangularProvider', '$authProvider', '$stateProvider', '$urlRouterProvider', function(RestangularProvider, $authProvider, $stateProvider, $urlRouterProvider) {
         RestangularProvider.setBaseUrl('/api/v1');
+        RestangularProvider.setResponseExtractor(function (response, operation) {
+            if (operation === 'getList') {
+                var data = response;
+                if (_.has(response, 'meta')) {
+                    data = response.data;
+                    data.meta = response.meta;
+                }
+                return data;
+            }
+            return response;
+        });
 
         $authProvider.facebook({
-            clientId: '0000000000000',
+            clientId: '448167108683079',
         });
         $authProvider.google({
             clientId: '388525728293-bu96shbpa47dpc92efgsemsd6ftu7gj7.apps.googleusercontent.com',
