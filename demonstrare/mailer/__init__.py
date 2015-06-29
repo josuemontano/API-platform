@@ -15,7 +15,7 @@ class MailNotifier(object):
     def send_message(cls, subject, to, message):
         data = {'from': cls.sender, 'to': to, 'subject': subject, 'html': message}
         try:
-            requests.post(cls.url, auth=('api', cls.api_key), data=data, timeout=3.5)
+            requests.post(cls.url, auth=('api', cls.api_key), data=data, timeout=5)
         except (ConnectionError, Timeout):
             log.error('Failed to deliver message %s', data)
 
