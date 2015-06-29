@@ -8,8 +8,9 @@ from .jwt import parse_token
 
 @implementer(IAuthenticationPolicy)
 class JWTAuthenticationPolicy(object):
-    """ A Pyramid authentication policy which obtains data from
-        JWT authentication headers.
+    """
+    A Pyramid authentication policy which obtains data from
+    JWT authentication headers.
     """
     def __init__(self, callback):
         self.callback = callback
