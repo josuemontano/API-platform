@@ -1,6 +1,5 @@
 import json
 import logging
-from datetime import datetime
 
 import requests
 from pyramid.httpexceptions import HTTPNotFound
@@ -119,7 +118,6 @@ def create_user(db_session, email, _google=None, _facebook=None, _live=None):
         role = db_session.query(Role).filter_by(is_default=True).one()
         user = User(email, role)
         db_session.add(user)
-        db_session.flush()
 
     if _google is not None:
         user.google = _google
@@ -128,4 +126,5 @@ def create_user(db_session, email, _google=None, _facebook=None, _live=None):
     elif _live is not None:
         user.live = _live
 
+    db_session.flush()
     return user
