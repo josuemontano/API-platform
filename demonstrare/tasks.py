@@ -12,6 +12,6 @@ def dummy_task(session):
 def includeme(config):
     session = config.registry['db_sessionmaker']()
 
-    sched = BackgroundScheduler()
-    sched.add_job(dummy_task, 'cron', hour=6, minute=30, args=[session])
-    sched.start()
+    scheduler = BackgroundScheduler()
+    scheduler.add_job(dummy_task, 'interval', minutes=1, args=[session])
+    scheduler.start()

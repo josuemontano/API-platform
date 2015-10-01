@@ -30,7 +30,7 @@ class PostsView(BaseView):
         item = self.request.db_session.query(Post).get(pk)
         return schema.dump(item).data
 
-    # PUT /profile/<id>
+    # PUT /posts/<id>
     @view_config(request_method='PUT')
     def update(self):
         pk = int(self.request.matchdict['id'])

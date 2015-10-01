@@ -22,7 +22,7 @@ class MailNotifier(object):
 
 def includeme(config):
     """
-    Sets the mailgun properties from .ini config file
+    Sets the mailgun properties from the .ini config file
 
     :param config: The pyramid ``Configurator`` object for your app.
     :type config: ``pyramid.config.Configurator``
