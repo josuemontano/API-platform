@@ -13,3 +13,7 @@ class ModelMixin(object):
     @declared_attr
     def edited(self):
         return Column(DateTime, onupdate=datetime.now)
+
+    @declared_attr
+    def deleted(self):
+        return Column(DateTime)
