@@ -18,16 +18,16 @@ import sqlalchemy as sa
 
 def upgrade():
     op.create_table('users',
-        sa.Column('id', sa.Integer(), nullable=False),
-        sa.Column('email', sa.String(length=150), nullable=False),
-        sa.Column('password', sa.String(length=150), nullable=True),
-        sa.Column('display_name', sa.String(length=150), nullable=True),
-        sa.Column('facebook', sa.String(length=120), nullable=True),
-        sa.Column('google', sa.String(length=120), nullable=True),
-        sa.Column('twitter', sa.String(length=120), nullable=True),
-        sa.PrimaryKeyConstraint('id'),
-        sa.UniqueConstraint('email')
-    )
+                    sa.Column('id', sa.Integer(), nullable=False),
+                    sa.Column('email', sa.String(length=150), nullable=False),
+                    sa.Column('password', sa.String(length=150), nullable=True),
+                    sa.Column('display_name', sa.String(length=150), nullable=True),
+                    sa.Column('facebook', sa.String(length=120), nullable=True),
+                    sa.Column('google', sa.String(length=120), nullable=True),
+                    sa.Column('twitter', sa.String(length=120), nullable=True),
+                    sa.PrimaryKeyConstraint('id'),
+                    sa.UniqueConstraint('email')
+                    )
 
 
 def downgrade():

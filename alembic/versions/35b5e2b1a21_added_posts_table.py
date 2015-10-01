@@ -18,14 +18,14 @@ import sqlalchemy as sa
 
 def upgrade():
     op.create_table('posts',
-        sa.Column('id', sa.Integer(), nullable=False),
-        sa.Column('title', sa.String(length=100), nullable=False),
-        sa.Column('body', sa.Text(), nullable=True),
-        sa.Column('created', sa.DateTime(), nullable=False),
-        sa.Column('edited', sa.DateTime(), nullable=True),
-        sa.Column('is_published', sa.Boolean(), nullable=False),
-        sa.PrimaryKeyConstraint('id')
-    )
+                    sa.Column('id', sa.Integer(), nullable=False),
+                    sa.Column('title', sa.String(length=100), nullable=False),
+                    sa.Column('body', sa.Text(), nullable=True),
+                    sa.Column('created', sa.DateTime(), nullable=False),
+                    sa.Column('edited', sa.DateTime(), nullable=True),
+                    sa.Column('is_published', sa.Boolean(), nullable=False),
+                    sa.PrimaryKeyConstraint('id')
+                    )
 
 
 def downgrade():

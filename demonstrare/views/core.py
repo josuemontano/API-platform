@@ -1,15 +1,8 @@
-import json
-import logging
-
-from pyramid.exceptions import HTTPBadRequest
-from pyramid.view import view_defaults, view_config
 from sqlalchemy import asc, desc
 
 from .base import CRUDBaseView, CRUDRegistrar
 from demonstrare.models.core import Post
 from demonstrare.schema.core import PostSchema
-
-log = logging.getLogger(__name__)
 
 
 @CRUDRegistrar(route='post', collection_route='posts', permission='view')

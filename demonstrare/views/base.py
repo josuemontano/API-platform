@@ -43,7 +43,7 @@ class CRUDBaseView(BaseView):
                     total = total.filter(exp)
             query = query.limit(limit).offset(offset)
         except KeyError:
-            log.error('No limit/offset keys found, will return the whole set of %s', self.resource)
+            log.warn('No limit/offset keys found, will return the whole set of %s', self.resource)
 
         total = total.count()
         return {'meta': {'total': total}, 'data': self.schema_many.dump(query.all()).data}
@@ -84,12 +84,12 @@ class CRUDBaseView(BaseView):
             return self.schema.dump(item).data
         except IntegrityError:
             request.db_session.rollback()
-            log.error('There are related records for %s {pk:%s}. WON\'T BE DELETED', item.__class__.__name__, pk)
+            log.warn('There are related records for %s {pk:%s}. WON\'T BE DELETED', item.__class__.__name__, pk)
             self.delete_fallback(item)
 
     def list_queries(self, request):
         return request.db_session.query(self.resource.id).filter_by(deleted=None), \
-               self.order_expression(request.db_session.query(self.resource)).filter_by(deleted=None)
+            self.order_expression(request.db_session.query(self.resource)).filter_by(deleted=None)
 
     def order_expression(self, query):
         try:
@@ -117,7 +117,7 @@ class CRUDBaseView(BaseView):
         raise NotImplementedError()
 
     def delete_fallback(self, item):
-        raise NotImplementedError()
+        item.deleted = datetime.now()
 
 
 class CRUDRegistrar(object):
