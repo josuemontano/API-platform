@@ -47,7 +47,7 @@ class JWTAuthenticationPolicy(object):
         finally:
             return principals
 
-    def remember(self, request, principal, **kw):
+    def remember(self, request, userid, **kw):
         return []
 
     def forget(self, request):
