@@ -19,12 +19,12 @@ class User(Base, ModelMixin):
     email = Column(String(250), nullable=False, unique=True)
     facebook = Column(String(120))
     google = Column(String(120))
-    twitter = Column(String(120))
+    live = Column(String(120))
     role_id = Column(Integer, ForeignKey('roles.id'), nullable=False)
 
     role = relationship(Role)
 
-    def __init__(self, email, role, facebook=None, google=None, twitter=None):
+    def __init__(self, email, role, facebook=None, google=None, live=None):
         self.email = email
         self.role = role
         self.role_id = role.id
@@ -33,5 +33,5 @@ class User(Base, ModelMixin):
             self.facebook = facebook
         if google:
             self.google = google
-        if twitter:
-            self.twitter = twitter
+        if live:
+            self.live = live
