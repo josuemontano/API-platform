@@ -140,7 +140,7 @@ class CRUDRegistrar(object):
     :type collection_route: str | None
     :type permission: str | None
     """
-    def __init__(self, route=None, collection_route=None, permission='admin'):
+    def __init__(self, route=None, collection_route=None, permission=None):
         self.route = route
         self.collection_route = collection_route
         self.permission = permission

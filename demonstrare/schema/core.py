@@ -1,10 +1,13 @@
 from marshmallow import Schema, fields
 
+from demonstrare.models.core import Post
+
 
 class PostSchema(Schema):
     id = fields.Integer()
     title = fields.String()
     body = fields.String()
     is_published = fields.Boolean()
-    created = fields.DateTime()
-    edited = fields.DateTime()
+
+    def make_object(self, data):
+        return Post(**data)
