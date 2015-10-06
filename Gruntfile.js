@@ -1,32 +1,57 @@
+'use strict';
+
 module.exports = function (grunt) {
+    require('load-grunt-tasks')(grunt);
+    require('time-grunt')(grunt);
+
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
-
-        // Watch task config
         watch: {
             sass: {
-                files: "<%= pkg.name %>/static/scss/*.scss",
+                files: '<%= pkg.name %>/static/scss/**/*.scss',
                 tasks: ['sass']
             },
-
             angularjs: {
-                files: "<%= pkg.name %>/static/js/app/**/*.js",
+                files: '<%= pkg.name %>/static/js/app/**/*.js',
                 tasks: ['concat', 'uglify']
             }
         },
-        // SASS task config
+        jshint: {
+            options: {
+                node: true,
+                browser: true,
+                bitwise: true,
+                eqeqeq: true,
+                latedef: true,
+                noarg: true,
+                strict: true,
+                undef: true,
+                unused: true,
+                globals: {
+                    "angular": false,
+                    "_": false
+                },
+            },
+            all: [
+                'Gruntfile.js',
+                '<%= pkg.name %>/static/js/app/**/*.js',
+            ]
+        },
         sass: {
             dist: {
                 options: {
                     style: 'compressed',
                     sourcemap: 'none',
                 },
-                files: {
-                    "<%= pkg.name %>/static/css/theme.min.css" : "<%= pkg.name %>/static/scss/theme.scss"
-                }
+                files: [{
+                    expand: true,
+                    cwd: '<%= pkg.name %>/static/scss',
+                    src: ['*.scss'],
+                    dest: '<%= pkg.name %>/static/css',
+                    ext: '.min.css'
+                }]
             }
         },
-
         concat: {
             options: {
                 separator: ';'
@@ -36,14 +61,13 @@ module.exports = function (grunt) {
                 dest: '<%= pkg.name %>/static/js/<%= pkg.name %>.js'
             }
         },
-
         uglify: {
             options: {
-                banner: '/**'
-                        + '\n * <%= pkg.name %>'
-                        + '\n * @version <%= pkg.version %>'
-                        + '\n * @date <%= grunt.template.today("dd-mm-yyyy") %>'
-                        + '\n**/\n'
+                banner: '/**' +
+                        '\n * <%= pkg.name %>' +
+                        '\n * @version <%= pkg.version %>' +
+                        '\n * @date <%= grunt.template.today("dd-mm-yyyy") %>' +
+                        '\n**/\n'
             },
             dist: {
                 files: {
@@ -53,10 +77,9 @@ module.exports = function (grunt) {
         },
     });
 
-    grunt.loadNpmTasks('grunt-contrib-sass');
-    grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-contrib-concat');
-    grunt.loadNpmTasks('grunt-contrib-uglify');
-
-    grunt.registerTask('default', ['sass', 'concat', 'uglify']);
+    grunt.registerTask('default', [
+        'sass',
+        'concat',
+        'uglify'
+    ]);
 };
