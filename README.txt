@@ -1,1 +1,1 @@
-demonstrare README
+canopus README

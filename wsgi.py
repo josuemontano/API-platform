@@ -2,7 +2,7 @@ import os
 import sys
 
 here = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, os.path.join(here, 'demonstrare'))
+sys.path.insert(0, os.path.join(here, 'canopus'))
 config = os.path.join(here, 'production.ini')
 
 from pyramid.paster import get_app

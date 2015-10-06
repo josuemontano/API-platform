@@ -13,9 +13,9 @@ fileConfig(config.config_file_name)
 
 # add your model's MetaData object here
 # for 'autogenerate' support
-from demonstrare.models.base import Base
-from demonstrare.models import auth
-from demonstrare.models import core
+from canopus.models.base import Base
+from canopus.models import auth
+from canopus.models import core
 target_metadata = Base.metadata
 
 # other values from the config, defined by the needs of env.py,

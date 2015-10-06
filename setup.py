@@ -25,9 +25,9 @@ requires = [
     'apscheduler',
 ]
 
-setup(name='demonstrare',
+setup(name='canopus',
       version='1.1',
-      description='demonstrare',
+      description='canopus',
       long_description=README + '\n\n' + CHANGES,
       classifiers=[
         "Programming Language :: Python",
@@ -44,8 +44,8 @@ setup(name='demonstrare',
       zip_safe=False,
       install_requires=requires,
       tests_require=requires,
-      test_suite="demonstrare",
+      test_suite="canopus",
       entry_points="""\
       [paste.app_factory]
-      main = demonstrare:main
+      main = canopus:main
       """,)
