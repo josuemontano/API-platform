@@ -1,6 +1,6 @@
 from marshmallow import Schema, fields
 
-from demonstrare.models.core import Post
+from ..models.core import Post
 
 
 class PostSchema(Schema):

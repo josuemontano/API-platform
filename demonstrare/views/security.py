@@ -1,6 +1,6 @@
 from pyramid.security import Allow
 
-from demonstrare.models.auth import User
+from ..models.auth import User
 
 
 def groupfinder(userid, request):

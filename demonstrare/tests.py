@@ -11,7 +11,7 @@ class ViewTests(unittest.TestCase):
         testing.tearDown()
 
     def test_index(self):
-        from demonstrare.views import index
+        from .views import index
         request = testing.DummyRequest()
         info = index(request)
         self.assertEqual(info['year'], 2015)

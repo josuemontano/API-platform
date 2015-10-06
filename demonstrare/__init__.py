@@ -1,8 +1,8 @@
 from pyramid.authorization import ACLAuthorizationPolicy
 from pyramid.config import Configurator
 
-from demonstrare.auth.policy import JWTAuthenticationPolicy
-from demonstrare.views.security import groupfinder, RootFactory
+from .auth.policy import JWTAuthenticationPolicy
+from .views.security import groupfinder, RootFactory
 
 
 def config_routes(config):
@@ -31,9 +31,9 @@ def main(global_config, **settings):
                           authorization_policy=ACLAuthorizationPolicy(),
                           root_factory=RootFactory)
 
-    config.include('demonstrare.models')
-    config.include('demonstrare.tasks')
-    config.include('demonstrare.mailer')
+    config.include('.models')
+    config.include('.tasks')
+    config.include('.mailer')
     config.include('pyramid_jinja2')
 
     config.add_renderer('.html', 'pyramid_jinja2.renderer_factory')

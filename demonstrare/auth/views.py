@@ -6,8 +6,8 @@ from pyramid.httpexceptions import HTTPNotFound
 from pyramid.view import view_config
 from sqlalchemy.orm.exc import NoResultFound
 
-from demonstrare.auth.jwt import create_token
-from demonstrare.models.auth import Role, User
+from ..auth.jwt import create_token
+from ..models.auth import Role, User
 
 log = logging.getLogger(__name__)
 

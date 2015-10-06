@@ -1,8 +1,8 @@
 from sqlalchemy import asc, desc
 
 from .base import CRUDBaseView, CRUDRegistrar
-from demonstrare.models.core import Post
-from demonstrare.schema.core import PostSchema
+from ..models.core import Post
+from ..schema.core import PostSchema
 
 
 @CRUDRegistrar(route='post', collection_route='posts', permission='view')
