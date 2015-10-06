@@ -16,6 +16,20 @@ module.exports = function (grunt) {
                 tasks: ['concat', 'uglify']
             }
         },
+        browserSync: {
+            dev: {
+                bsFiles: {
+                    src : [
+                        '<%= pkg.name %>/static/css/*.css',
+                        '<%= pkg.name %>/static/**/*.html',
+                    ]
+                },
+                options: {
+                    watchTask: true,
+                    proxy: '127.0.0.1:6543'
+                }
+            }
+        },
         jshint: {
             options: {
                 jshintrc: '.jshintrc'
@@ -66,8 +80,7 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('default', [
-        'sass',
-        'concat',
-        'uglify'
+        'browserSync',
+        'watch'
     ]);
 };
