@@ -2,7 +2,7 @@ import json
 import logging
 from datetime import datetime
 
-from pyramid.httpexceptions import HTTPBadRequest
+from pyramid.httpexceptions import HTTPBadRequest, HTTPNotFound
 from pyramid.view import view_config
 from sqlalchemy import asc
 from sqlalchemy.exc import IntegrityError
@@ -60,12 +60,18 @@ class CRUDBaseView(BaseView):
     def detail(self):
         pk = int(self.request.matchdict['id'])
         requested = self.request.db_session.query(self.resource).get(pk)
+        if not requested:
+            raise HTTPNotFound()
+
         return self.schema.dump(requested).data
 
     # PUT /<resource>/<id>
     def update(self):
         data = self.load_object()
         item = self.request.db_session.query(self.resource).get(data.id)
+        if not item:
+            raise HTTPNotFound()
+        
         log.info('User %d is updating %s %s', self.userid, item.__class__.__name__, item)
 
         self.populate_object(item, data)
@@ -76,6 +82,9 @@ class CRUDBaseView(BaseView):
         pk = int(self.request.matchdict['id'])
         request = self.request
         item = request.db_session.query(self.resource).get(pk)
+        if not item:
+            raise HTTPNotFound()
+
         try:
             request.db_session.begin_nested()
             request.db_session.delete(item)
