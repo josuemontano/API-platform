@@ -1,17 +1,17 @@
 // Colors
 // -------------------------------
 
-$light:                                 #DDD;
-$green:                                 #82D3C8;
-$dark:                                  #333;
-
+$light:                                 #FFF;
+$green:                                 #3B8686;
+$blue:                                  #0B486B;
+$dark:                                  #343434;
 
 // General
 // -------------------------------
 
 a, p, input, button, small, select, li, b {
     color:                              $dark;
-    font-family:                        'Lato' !important;
+    font-family:                        'Lato', Helvetica, Arial !important;
     font-weight:                        normal;
     font-style:                         normal;
     -webkit-font-smoothing:             antialiased;
@@ -40,10 +40,11 @@ h1, h2, h3, h4, h5, h6 {
 
 header {
     margin-bottom:                      3em;
+    background-color:                   $green;
 
     .title {
-        padding-top:                    0.25em;
-        color:                          $dark;
+        padding:                        0.25em;
+        color:                          $light;
         font-stretch:                   ultra-condensed;
     }
 
@@ -53,22 +54,22 @@ header {
         
         li {
             display:                    inline-block;
-            margin:                     1.2em 0 0 1.5em;
+            margin:                     1.5em 0 0 1.5em;
 
             a {
                 padding:                0.5em 0;
                 color:                  $light !important;
                 text-transform:         uppercase;
-                transition:             all 0.2s ease-in;
+                transition:             all 0.5s linear;
 
                 &:hover {
-                    border-bottom:      2px solid $green;
+                    border-bottom:      1px solid $light;
                 }
             }
 
             &.active {
                 a {
-                    border-bottom:      2px solid $green;
+                    border-bottom:      1px solid $light;
                 }
             }
         }
@@ -78,19 +79,6 @@ header {
 
 // Content
 // -------------------------------
-
-.blurred {
-    position:                           fixed;
-    top:                                0em;
-    left:                               0em;
-    right:                              0;
-    z-index:                            -1;
-    display:                            block;
-    background:                         url('../images/01_blurred_background_Invincible.jpg') no-repeat center center;
-    background-size:                    cover;
-    width:                              100%;
-    height:                             100%;
-}
 
 .content {
     margin-bottom:                      3em;
