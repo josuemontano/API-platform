@@ -1,0 +1,104 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Canopus by josuemontano</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Canopus</h1>
+        <p>Pyramid &amp; AngularJS for scalable web applications</p>
+
+        <p class="view"><a href="https://github.com/josuemontano/api-starter">View the Project on GitHub <small>josuemontano/api-starter</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/josuemontano/api-starter/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/josuemontano/api-starter/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/josuemontano/api-starter">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a id="canopus" class="anchor" href="#canopus" aria-hidden="true"><span class="octicon octicon-link"></span></a>Canopus</h1>
+
+<p><a href="https://travis-ci.org/josuemontano/api-starter"><img src="http://img.shields.io/travis/josuemontano/api-starter.svg?style=flat" alt="Build Status"></a></p>
+
+<p><strong>Live Demo:</strong> <a href="https://api-hanovit.rhcloud.com">https://api-hanovit.rhcloud.com</a></p>
+
+<hr>
+
+<p>This project was built to provide a starting point for developing REST APIs with Pyramid and build an AngularJS around it. Happy coding!</p>
+
+<h2>
+<a id="cool-stuff" class="anchor" href="#cool-stuff" aria-hidden="true"><span class="octicon octicon-link"></span></a>Cool stuff...</h2>
+
+<p>The server is built on top of <a href="http://trypyramid.com">Pyramid</a> (web development with style, indeed). Pyramid itself exposes and serves the REST resources. It makes use of <a href="https://github.com/jpadilla/pyjwt">PyJWT</a> in the auth module for JSON Web Token authentication.</p>
+
+<p>The front end is an AngularJS 1 application built with <a href="https://github.com/sahat/satellizer">Satellizer</a>, <a href="https://github.com/angular-ui/ui-router">AngularUI Router</a> and <a href="https://github.com/mgonto/restangular">Restangular</a>.</p>
+
+<h2>
+<a id="database" class="anchor" href="#database" aria-hidden="true"><span class="octicon octicon-link"></span></a>Database</h2>
+
+<p>By default the project has a PostgreSQL connection configured. Change the <code>sqlalchemy.url</code> property in <code>development.ini</code> and <code>alembic.ini</code> to match your database settings. Make sure you have PostgreSQL in your PATH, psycopg2 requires it. If using <a href="http://postgresapp.com/">PostgresApp</a>, as I do, add these lines to your bash profile</p>
+
+<div class="highlight highlight-source-shell"><pre><span class="pl-k">export</span> PATH=/Applications/Postgres.app/Contents/Versions/9.4/bin:<span class="pl-smi">$PATH</span>
+<span class="pl-k">export</span> DYLD_LIBRARY_PATH=/Applications/Postgres.app/Contents/MacOS/lib</pre></div>
+
+<p>It should be straightforward to make it work with the SQL database of your preference.</p>
+
+<h2>
+<a id="running" class="anchor" href="#running" aria-hidden="true"><span class="octicon octicon-link"></span></a>Running</h2>
+
+<p>To run it, and assuming you have a virtual enviroment <code>$VENV</code> created, just do:</p>
+
+<div class="highlight highlight-source-shell"><pre><span class="pl-k">export</span> JWT_SECRET=<span class="pl-s"><span class="pl-pds">'</span>secret<span class="pl-pds">'</span></span>
+<span class="pl-c1">cd</span> <span class="pl-smi">$VENV</span>/api-starter
+../bin/python setup.py develop
+../bin/alembic upgrade head
+../bin/pserve development.ini --reload</pre></div>
+
+<p>Migrations are provided by <a href="http://alembic.readthedocs.org">Alembic</a>, you need to run them the first time. The app will look for an env variable called <code>JWT_SECRET</code>, make sure it is properly set.</p>
+
+<p>You may also deploy the app with WSGI locally using <a href="https://modwsgi.readthedocs.org/en/master/">mod_wsgi</a>.</p>
+
+<div class="highlight highlight-source-shell"><pre>../bin/pip install mod_wsgi
+mod_wsgi-express start-server wsgi.py --port 6543</pre></div>
+
+<h2>
+<a id="frontend" class="anchor" href="#frontend" aria-hidden="true"><span class="octicon octicon-link"></span></a>Frontend</h2>
+
+<p>The frontend is served by the same Pyramid app, so you don't have to run it separately on a NodeJS server or whatever. Some may argue this is not a good practice, however, due to some infraestructure limitations I often need to do it this way.</p>
+
+<p>Grunt tasks are set up, so install <a href="http://nodejs.org">NodeJS</a> on your development computer. Then install the project dependencies:</p>
+
+<div class="highlight highlight-source-shell"><pre><span class="pl-c1">cd</span> <span class="pl-smi">$VENV</span>/metropolitan
+npm install</pre></div>
+
+<p>Now you're a <code>grunt watch</code> away!</p>
+
+<h2>
+<a id="openshift" class="anchor" href="#openshift" aria-hidden="true"><span class="octicon octicon-link"></span></a>OpenShift</h2>
+
+<p>You can deploy on <a href="https://openshift.redhat.com">OpenShift</a> over HTTPS out of the box. When creating your application just fill in the Source Code field with the value: <a href="https://github.com/josuemontano/api-starter">https://github.com/josuemontano/api-starter</a>. All is left to you is the DB configuration, as explained before, and setting the <code>JWT_SECRET</code> variable.</p>
+
+<div class="highlight highlight-source-shell"><pre>rhc env <span class="pl-c1">set</span> JWT_SECRET=secret -a app_name</pre></div>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/josuemontano">josuemontano</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
