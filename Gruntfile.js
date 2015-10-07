@@ -21,6 +21,7 @@ module.exports = function (grunt) {
                 bsFiles: {
                     src : [
                         '<%= pkg.name %>/static/css/*.css',
+                        '<%= pkg.name %>/static/js/*.min.js',
                     ]
                 },
                 options: {
