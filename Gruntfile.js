@@ -14,6 +14,10 @@ module.exports = function (grunt) {
             angularjs: {
                 files: 'client/app/**/*.js',
                 tasks: ['concat', 'uglify']
+            },
+            html: {
+                files: 'client/app/modules/**/*.html',
+                tasks: ['htmlmin']
             }
         },
         browserSync: {
@@ -74,6 +78,28 @@ module.exports = function (grunt) {
                 }
             }
         },
+        htmlmin: {
+            dist: {
+                options: {
+                    removeComments: true,
+                    collapseWhitespace: true
+                },
+                files: [{
+                    expand: true,
+                    cwd: 'client/app/modules',
+                    src: '**/*.html',
+                    dest: '<%= pkg.name %>/static/ui'
+                }]
+            },
+            dev: {
+                files: [{
+                    expand: true,
+                    cwd: 'client/app/modules',
+                    src: '**/*.html',
+                    dest: '<%= pkg.name %>/static/ui'
+                }]
+            }
+        }
     });
 
     grunt.registerTask('default', [

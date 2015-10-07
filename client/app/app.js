@@ -42,14 +42,14 @@ angular.module('demo', [
     $stateProvider
     .state('home', {
         url:'/',
-        templateUrl: 'static/ui/home.html',
+        templateUrl: 'static/ui/home/home.html',
         controller: 'HomeCtrl',
         controllerAs: 'vm',
     })
     // Login & logout
     .state('login', {
         url:'/login',
-        templateUrl: 'static/ui/login.html',
+        templateUrl: 'static/ui/auth/login.html',
         controller: 'LoginCtrl',
         controllerAs: 'vm',
     })
@@ -72,7 +72,7 @@ angular.module('demo', [
     })
     .state('dashboard.posts', {
         url:'/posts',
-        templateUrl: 'static/ui/dashboard/posts.html',
+        templateUrl: 'static/ui/post/posts.html',
         controller: 'PostsCtrl',
         controllerAs: 'vm',
         resolve: {
