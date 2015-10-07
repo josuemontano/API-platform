@@ -1,4 +1,4 @@
-angular.module('demo.auth.controller', [])
+angular.module('demo.auth.controller', ['satellizer'])
     .controller('LoginCtrl', ['$auth', LoginCtrl])
     .controller('LogoutCtrl', ['$auth', LogoutCtrl]);
 

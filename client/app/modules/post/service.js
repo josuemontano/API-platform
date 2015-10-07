@@ -1,5 +1,3 @@
-'use strict';
-
 angular.module('demo.post.service', ['restangular'])
     .factory('Posts', ['Restangular', PostsFactory]);
 

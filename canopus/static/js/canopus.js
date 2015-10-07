@@ -91,3 +91,81 @@ angular.module('demo', [
         }
     })
 }]);
+
+angular.module('demo.auth.controller', ['satellizer'])
+    .controller('LoginCtrl', ['$auth', LoginCtrl])
+    .controller('LogoutCtrl', ['$auth', LogoutCtrl]);
+
+/**
+ * @name LoginCtrl
+ * @type {Function}
+ */
+function LoginCtrl ($auth) {
+    var vm = this;
+    vm.authenticate = function (provider) {
+        $auth.authenticate(provider)
+        .then(function (response) {
+        }, function (error) {
+            if (error.status === 400)
+                vm.error = 'You cannot login to this site. Request an account.';
+            else
+                vm.error = 'An unexpected problem occured, please try again.';
+        });
+    };
+}
+
+/**
+ * @name LogoutCtrl
+ * @type {Function}
+ */
+function LogoutCtrl ($auth) {
+    $auth.logout();
+}
+
+angular.module('demo.home.controller', [])
+    .controller('HomeCtrl', [HomeCtrl]);
+
+/**
+ * @name HomeCtrl
+ * @type {Function}
+ */
+function HomeCtrl () {
+    var vm = this;
+    vm.message = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.';
+}
+
+angular.module('demo.post.controller', ['demo.post.service'])
+    .controller('PostsCtrl', ['posts', PostsCtrl]);
+
+/**
+ * @name PostsCtrl
+ * @type {Function}
+ */
+function PostsCtrl (posts) {
+    var vm = this;
+    vm.posts = posts;
+}
+
+angular.module('demo.post.service', ['restangular'])
+    .factory('Posts', ['Restangular', PostsFactory]);
+
+/**
+ * @name PostsFactory
+ * @type {Function}
+ */
+function PostsFactory (Restangular) {
+    return Restangular.service('posts');
+}
+
+angular.module('demo.controllers', ['satellizer'])
+    .controller('MenuCtrl', ['$scope', '$auth', MenuCtrl]);
+
+/**
+ * @name MenuCtrl
+ * @type {Function}
+ */
+function MenuCtrl ($scope, $auth) {
+    $scope.isAuthenticated = function () {
+        return $auth.isAuthenticated();
+    };
+}

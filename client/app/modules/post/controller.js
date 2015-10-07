@@ -1,4 +1,4 @@
-angular.module('demo.post.controller', [])
+angular.module('demo.post.controller', ['demo.post.service'])
     .controller('PostsCtrl', ['posts', PostsCtrl]);
 
 /**

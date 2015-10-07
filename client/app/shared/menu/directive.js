@@ -1,4 +1,4 @@
-angular.module('demo.controllers', [])
+angular.module('demo.controllers', ['satellizer'])
     .controller('MenuCtrl', ['$scope', '$auth', MenuCtrl]);
 
 /**
