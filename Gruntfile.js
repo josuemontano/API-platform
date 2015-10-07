@@ -8,11 +8,11 @@ module.exports = function (grunt) {
         pkg: grunt.file.readJSON('package.json'),
         watch: {
             sass: {
-                files: '<%= pkg.name %>/static/scss/**/*.scss',
+                files: 'client/assets/scss/*.scss',
                 tasks: ['sass']
             },
             angularjs: {
-                files: '<%= pkg.name %>/static/js/app/**/*.js',
+                files: 'client/app/**/*.js',
                 tasks: ['concat', 'uglify']
             }
         },
@@ -21,7 +21,6 @@ module.exports = function (grunt) {
                 bsFiles: {
                     src : [
                         '<%= pkg.name %>/static/css/*.css',
-                        '<%= pkg.name %>/static/**/*.html',
                     ]
                 },
                 options: {
@@ -36,7 +35,7 @@ module.exports = function (grunt) {
             },
             all: [
                 'Gruntfile.js',
-                '<%= pkg.name %>/static/js/app/**/*.js',
+                'client/app/**/*.js',
             ]
         },
         sass: {
@@ -47,7 +46,7 @@ module.exports = function (grunt) {
                 },
                 files: [{
                     expand: true,
-                    cwd: '<%= pkg.name %>/static/scss',
+                    cwd: 'client/assets/scss',
                     src: ['*.scss'],
                     dest: '<%= pkg.name %>/static/css',
                     ext: '.min.css'
@@ -55,11 +54,8 @@ module.exports = function (grunt) {
             }
         },
         concat: {
-            options: {
-                separator: ';'
-            },
             dist: {
-                src: ['<%= pkg.name %>/static/js/app/**/*.js'],
+                src: ['client/app/**/*.js'],
                 dest: '<%= pkg.name %>/static/js/<%= pkg.name %>.js'
             }
         },
