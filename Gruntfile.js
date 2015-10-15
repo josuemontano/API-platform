@@ -99,11 +99,27 @@ module.exports = function (grunt) {
                     dest: '<%= pkg.name %>/static/ui'
                 }]
             }
+        },
+        copy: {
+            files: {
+                cwd: 'client/assets/img',
+                src: '**/*',
+                dest: '<%= pkg.name %>/static/img',
+                expand: true
+            }
         }
     });
 
     grunt.registerTask('default', [
         'browserSync',
         'watch'
+    ]);
+
+    grunt.registerTask('build', [
+        'copy',
+        'sass',
+        'concat',
+        'uglify',
+        'htmlmin:dist'
     ]);
 };
