@@ -52,7 +52,7 @@ cd $VENV/metropolitan
 npm install
 ```
 
-Now you're a `grunt watch` away!
+Now you're a `grunt` away!
 
 ### OpenShift
 
