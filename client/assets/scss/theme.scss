@@ -1,16 +1,15 @@
 // Colors
 // -------------------------------
 
-$light:                                 #FFF;
-$green:                                 #3B8686;
+$light:                                 #F7F7F7;
 $blue:                                  #0B486B;
-$dark:                                  #343434;
+$dark:                                  #383838;
 
 // General
 // -------------------------------
 
 a, p, input, button, small, select, li, b {
-    color:                              $dark;
+    color:                              $light;
     font-family:                        'Lato', Helvetica, Arial !important;
     font-weight:                        normal;
     font-style:                         normal;
@@ -19,6 +18,7 @@ a, p, input, button, small, select, li, b {
 }
 
 h1, h2, h3, h4, h5, h6 {
+    color:                              $light;
     font-family:                        'Lato';
     font-weight:                        700;
     font-style:                         normal;
@@ -34,13 +34,17 @@ h1, h2, h3, h4, h5, h6 {
     font-size:                          0.75em;
 }
 
+html, body {
+    background-color:                   $blue;
+}
+
 
 // Header
 // -------------------------------
 
 header {
     margin-bottom:                      3em;
-    background-color:                   $green;
+    //background-color:                   rgba(247, 247, 247, 0.1); // From $light
 
     .title {
         padding:                        0.25em;
@@ -88,16 +92,21 @@ header {
     }
 
     .card {
-        background-color:               rgba(255, 255, 255, 0.5);
+        background-color:               rgba(247, 247, 247, 0.8); // From $light
+        border-radius:                  2px;
 
         .title {
             padding:                    0.5em;
             text-align:                 center;
-            background-color:           rgba(255, 255, 255, 0.5);
+            color:                      $dark;
         }
 
         .card-content {
             padding:                    2em;
+            
+            & > * {
+                color:                  $dark;
+            }
         }
     }
 
@@ -157,7 +166,7 @@ footer {
 // Loading bar
 // -------------------------------
 
-$barcolor:                              $green;
+$barcolor:                              $light;
 
 #loading-bar {
     pointer-events:                     none;
