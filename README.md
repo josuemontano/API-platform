@@ -50,9 +50,12 @@ Grunt tasks are set up, so install [NodeJS](http://nodejs.org) on your developme
 ```bash
 cd $VENV/metropolitan
 npm install
+grunt build
 ```
 
-Now you're a `grunt` away! Please note Browsersync is enabled and the proxy port is set to 6543.
+Now you're a `grunt` away!
+
+**Note:** Please note Browsersync is enabled and the proxy port is set to 6543, so make sure the server is running on this port.
 
 ### OpenShift
 
