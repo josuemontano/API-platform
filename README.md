@@ -13,7 +13,7 @@ The front end is an AngularJS 1 application built with [Satellizer](https://gith
 
 ### Database
 
-By default the project has a PostgreSQL connection configured. Change the `sqlalchemy.url` property in `development.ini` and `alembic.ini` to match your database settings. Make sure you have PostgreSQL in your PATH, psycopg2 requires it. If using [PostgresApp](http://postgresapp.com/), as I do, add these lines to your bash profile
+By default the project has a PostgreSQL connection configured. Change the `sqlalchemy.url` property in `development.ini` and `alembic.ini` to match your database settings. Make sure you have PostgreSQL set in your PATH, psycopg2 requires it. If using [PostgresApp](http://postgresapp.com/), as I do, add these lines to your bash profile
 ```bash
 export PATH=/Applications/Postgres.app/Contents/Versions/9.4/bin:$PATH
 export DYLD_LIBRARY_PATH=/Applications/Postgres.app/Contents/MacOS/lib
