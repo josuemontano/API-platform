@@ -90,14 +90,6 @@ module.exports = function (grunt) {
                     src: '**/*.html',
                     dest: '<%= pkg.name %>/static/ui'
                 }]
-            },
-            dev: {
-                files: [{
-                    expand: true,
-                    cwd: 'client/app/modules',
-                    src: '**/*.html',
-                    dest: '<%= pkg.name %>/static/ui'
-                }]
             }
         },
         copy: {
@@ -120,6 +112,6 @@ module.exports = function (grunt) {
         'sass',
         'concat',
         'uglify',
-        'htmlmin:dist'
+        'htmlmin'
     ]);
 };
