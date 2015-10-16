@@ -43,7 +43,7 @@ mod_wsgi-express start-server wsgi.py --port 6543
 
 ### Frontend
 
-The frontend is served by the same Pyramid app, so you don't have to run it separately on a NodeJS server or whatever. Some may argue this is not a good practice, however, due to some infraestructure limitations I often need to do it this way.
+The frontend is served by the same Pyramid app, so you don't have to run it separately on a NodeJS server or whatever. I often find myself in need to deploy this way due to infraestructure limitations.
 
 Grunt tasks are set up, so install [NodeJS](http://nodejs.org) on your development computer. Then install the project dependencies:
 
@@ -52,7 +52,7 @@ cd $VENV/metropolitan
 npm install
 ```
 
-Now you're a `grunt` away!
+Now you're a `grunt` away! Please note Browsersync is enabled and the proxy port is set to 6543.
 
 ### OpenShift
 
