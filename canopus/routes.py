@@ -5,6 +5,8 @@ def includeme(config):
     :type config: ``pyramid.config.Configurator``
     """
     config.add_route('home', '/')
+    config.add_route('robots', '/robots.txt')
+
     config.add_route('oauth2-google', '/auth/google')
     config.add_route('oauth2-facebook', '/auth/facebook')
     config.add_route('oauth2-live', '/auth/live')
