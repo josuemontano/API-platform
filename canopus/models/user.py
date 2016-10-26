@@ -21,3 +21,11 @@ class User(Base, ModelMixin):
     role = Column(Integer, nullable=False)
     enabled = Column(Boolean, nullable=False, default=True)
     last_signed_in_at = Column(DateTime)
+
+    def fullname(self, last_name_first=False):
+        """
+        :param last_name_first:
+        :rtype: str
+        """
+        pattern = '{1}, {0}' if last_name_first else '{0} {1}'
+        return pattern.format(self.first_name.strip(), self.last_name.strip())
