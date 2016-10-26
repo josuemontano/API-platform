@@ -5,12 +5,9 @@ from .base import ModelMixin
 from .meta import Base
 
 
-class Role(Base):
-    __tablename__ = 'roles'
-
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    name = Column(String(100), nullable=False)
-    is_default = Column(Boolean, nullable=False, default=False)
+class Role:
+    USER = 10
+    ADMIN = 20
 
 
 class User(Base, ModelMixin):
@@ -21,9 +18,7 @@ class User(Base, ModelMixin):
     facebook = Column(String(120))
     google = Column(String(120))
     live = Column(String(120))
-    role_id = Column(Integer, ForeignKey('roles.id'), nullable=False)
-
-    role = relationship(Role)
+    role = Column(Integer, nullable=False)
 
     def __init__(self, email, role, facebook=None, google=None, live=None):
         self.email = email

@@ -4,12 +4,13 @@ from pyramid.authorization import ACLAuthorizationPolicy
 from pyramid.security import Allow
 
 from ..models import User, Role
+from .token_factory import TokenFactory
 
 
 class RootFactory(object):
-    # TODO: Load from database
-    __acl__ = [(Allow, 'admin', ('admin', 'view')),
-               (Allow, 'user', 'view')]
+    """Permission definitions"""
+    __acl__ = [(Allow, Role.USER, 'view'),
+               (Allow, Role.ADMIN, ('admin', 'view'))]
 
     def __init__(self, request):
         self.request = request
