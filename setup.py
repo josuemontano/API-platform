@@ -20,6 +20,7 @@ requires = [
     'psycopg2',
     'marshmallow',
     'PyJWT',
+    'pyramid_jwt',
     'requests',
     'alembic',
     'apscheduler',
