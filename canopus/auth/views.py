@@ -32,9 +32,9 @@ def google(request):
     profile = json.loads(r.text)
 
     try:
-        user = request.db_session.query(User).filter_by(google=profile['sub']).one()
+        user = request.dbsession.query(User).filter_by(google=profile['sub']).one()
     except NoResultFound:
-        user = create_user(request.db_session, profile['email'], _google=profile['sub'])
+        user = create_user(request.dbsession, profile['email'], _google=profile['sub'])
         if user is None:
             raise HTTPNotFound()
 
@@ -62,9 +62,9 @@ def facebook(request):
     profile = json.loads(r.text)
 
     try:
-        user = request.db_session.query(User).filter_by(facebook=profile['id']).one()
+        user = request.dbsession.query(User).filter_by(facebook=profile['id']).one()
     except NoResultFound:
-        user = create_user(request.db_session, profile['email'], _facebook=profile['id'])
+        user = create_user(request.dbsession, profile['email'], _facebook=profile['id'])
         if user is None:
             raise HTTPNotFound()
 
@@ -96,9 +96,9 @@ def live(request):
     profile = json.loads(r.text)
 
     try:
-        user = request.db_session.query(User).filter_by(live=profile['id']).one()
+        user = request.dbsession.query(User).filter_by(live=profile['id']).one()
     except NoResultFound:
-        user = create_user(request.db_session, profile['emails']['account'], _live=profile['id'])
+        user = create_user(request.dbsession, profile['emails']['account'], _live=profile['id'])
         if user is None:
             raise HTTPNotFound()
 
@@ -106,18 +106,18 @@ def live(request):
     return dict(token=token)
 
 
-def create_user(db_session, email, _google=None, _facebook=None, _live=None):
+def create_user(dbsession, email, _google=None, _facebook=None, _live=None):
     """
-    :type db_session: ``sqlalchemy.orm.Session``
+    :type dbsession: ``sqlalchemy.orm.Session``
     :return: Created or updated user
     """
     log.info('Request to create user for email %s', email)
     try:
-        user = db_session.query(User).filter_by(email=email).one()
+        user = dbsession.query(User).filter_by(email=email).one()
     except NoResultFound:
-        role = db_session.query(Role).filter_by(is_default=True).one()
+        role = dbsession.query(Role).filter_by(is_default=True).one()
         user = User(email, role)
-        db_session.add(user)
+        dbsession.add(user)
 
     if _google is not None:
         user.google = _google
@@ -126,5 +126,5 @@ def create_user(db_session, email, _google=None, _facebook=None, _live=None):
     elif _live is not None:
         user.live = _live
 
-    db_session.flush()
+    dbsession.flush()
     return user

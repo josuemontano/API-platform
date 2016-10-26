@@ -69,6 +69,6 @@ def includeme(config):
     config.add_request_method(
         # r.tm is the transaction manager used by pyramid_tm
         lambda r: get_tm_session(session_factory, r.tm),
-        'db_session',
+        'dbsession',
         reify=True
     )

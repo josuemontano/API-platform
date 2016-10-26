@@ -10,7 +10,7 @@ def dummy_task(session):
 
 
 def includeme(config):
-    session = config.registry['db_sessionmaker']()
+    session = config.registry['dbsession_factory']()
 
     scheduler = BackgroundScheduler()
     scheduler.add_job(dummy_task, 'interval', minutes=1, args=[session])

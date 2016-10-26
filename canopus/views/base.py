@@ -52,14 +52,14 @@ class CRUDBaseView(BaseView):
     def create(self):
         data = self.load_object()
         log.info('User %d is creating %s %s', self.userid, data.__class__.__name__, data)
-        self.request.db_session.add(data)
+        self.request.dbsession.add(data)
 
         return self.schema.dump(data).data
 
     # GET /<resource>/<id>
     def detail(self):
         pk = int(self.request.matchdict['id'])
-        requested = self.request.db_session.query(self.resource).get(pk)
+        requested = self.request.dbsession.query(self.resource).get(pk)
         if not requested:
             raise HTTPNotFound()
 
@@ -68,7 +68,7 @@ class CRUDBaseView(BaseView):
     # PUT /<resource>/<id>
     def update(self):
         data = self.load_object()
-        item = self.request.db_session.query(self.resource).get(data.id)
+        item = self.request.dbsession.query(self.resource).get(data.id)
         if not item:
             raise HTTPNotFound()
         
@@ -81,24 +81,24 @@ class CRUDBaseView(BaseView):
     def delete(self):
         pk = int(self.request.matchdict['id'])
         request = self.request
-        item = request.db_session.query(self.resource).get(pk)
+        item = request.dbsession.query(self.resource).get(pk)
         if not item:
             raise HTTPNotFound()
 
         try:
-            request.db_session.begin_nested()
-            request.db_session.delete(item)
-            request.db_session.flush()
+            request.dbsession.begin_nested()
+            request.dbsession.delete(item)
+            request.dbsession.flush()
 
             return self.schema.dump(item).data
         except IntegrityError:
-            request.db_session.rollback()
+            request.dbsession.rollback()
             log.warn('There are related records for %s {pk:%s}. WON\'T BE DELETED', item.__class__.__name__, pk)
             self.delete_fallback(item)
 
     def list_queries(self, request):
-        return request.db_session.query(self.resource.id).filter_by(deleted=None), \
-            self.order_expression(request.db_session.query(self.resource)).filter_by(deleted=None)
+        return request.dbsession.query(self.resource.id).filter_by(deleted=None), \
+            self.order_expression(request.dbsession.query(self.resource)).filter_by(deleted=None)
 
     def order_expression(self, query):
         try:

@@ -4,7 +4,7 @@ from ..models.auth import User
 
 
 def groupfinder(userid, request):
-    user = request.db_session.query(User).get(userid)
+    user = request.dbsession.query(User).get(userid)
     if user is not None:
         return [user.role.name]
 
