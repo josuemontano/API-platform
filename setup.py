@@ -23,7 +23,16 @@ requires = [
     'alembic',
     'apscheduler',
     'rollbar'
-]
+    ]
+
+tests_require = [
+    'pytest',
+    'pytest-mock',
+    'factory_boy',
+    'freezegun',
+    'pytest-cov',
+    ]
+
 
 setup(name='canopus',
       version='1.1',
@@ -38,14 +47,15 @@ setup(name='canopus',
       author='Josue Montano',
       author_email='josuemontanoa@gmail.com',
       url='',
-      keywords='web pyramid pylons rest api angularjs'
+      keywords='web pyramid pylons rest api angularjs',
       packages=find_packages(),
       include_package_data=True,
       zip_safe=False,
+      extras_require={
+          'testing': tests_require,
+      },
       install_requires=requires,
-      tests_require=requires,
-      test_suite="canopus",
       entry_points="""\
       [paste.app_factory]
-      main = canopus:main
+      main = metropolitan:main
       """,)
