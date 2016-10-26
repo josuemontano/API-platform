@@ -41,7 +41,7 @@ class CRUDBaseView(BaseView):
     # POST /<resource>
     def create(self):
         data = self.load_object()
-        log.info('User %d is creating %s %s', self.userid, data.__class__.__name__, data)
+        log.info('User %d is creating %s %s', self.current_user_id, data.__class__.__name__, data)
         self.request.dbsession.add(data)
 
         return self.schema.dump(data).data
@@ -62,7 +62,7 @@ class CRUDBaseView(BaseView):
         if not item:
             raise HTTPNotFound()
         
-        log.info('User %d is updating %s %s', self.userid, item.__class__.__name__, item)
+        log.info('User %d is updating %s %s', self.current_user_id, item.__class__.__name__, item)
 
         self.populate_object(item, data)
         return self.schema.dump(item).data

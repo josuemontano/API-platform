@@ -10,4 +10,4 @@ class BaseView(object):
     """
     def __init__(self, request):
         self.request = request
-        self.userid = request.authenticated_userid
+        self.current_user_id = request.authenticated_userid
