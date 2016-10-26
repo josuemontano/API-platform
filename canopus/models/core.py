@@ -1,6 +1,7 @@
 from sqlalchemy import Boolean, Column, Integer, String, Text
 
-from .base import Base, ModelMixin
+from .base import ModelMixin
+from .meta import Base
 
 
 class Post(Base, ModelMixin):

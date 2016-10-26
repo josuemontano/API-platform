@@ -1,7 +1,8 @@
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
-from .base import Base, ModelMixin
+from .base import ModelMixin
+from .meta import Base
 
 
 class Role(Base):
