@@ -137,20 +137,35 @@ class CRUDRegistrar(object):
 
     :type route: str | None
     :type collection_route: str | None
-    :type permission: str | None
+    :type permissions: dict | {}
     """
-    def __init__(self, route=None, collection_route=None, permission=None):
+    def __init__(self, route=None, collection_route=None, http_cache=(None, {'private': True}), **permissions):
         self.route = route
         self.collection_route = collection_route
-        self.permission = permission
+        self.http_cache = http_cache
+        self.permissions = permissions
+
+        self.setup_permissions()
+
+    def setup_permissions(self):
+        """Set permissions for all views. If none was provided use the
+        default one.
+        """
+        default_permission = self.permissions.get('default')
+
+        self.permissions['list'] = self.permissions.get('list') or default_permission
+        self.permissions['create'] = self.permissions.get('create') or default_permission
+        self.permissions['detail'] = self.permissions.get('detail') or default_permission
+        self.permissions['update'] = self.permissions.get('update') or default_permission
+        self.permissions['delete'] = self.permissions.get('delete') or default_permission
 
     def __call__(self, cls):
         cls.item_route = self.route
-        if self.route:
-            cls = view_config(_depth=1, renderer='json', permission=self.permission, attr='detail', request_method='GET', route_name=self.route)(cls)
-            cls = view_config(_depth=1, renderer='json', permission=self.permission, attr='update', request_method='PUT', route_name=self.route)(cls)
-            cls = view_config(_depth=1, renderer='json', permission=self.permission, attr='delete', request_method='DELETE', route_name=self.route)(cls)
         if self.collection_route:
-            cls = view_config(_depth=1, renderer='json', permission=self.permission, attr='list', request_method='GET', route_name=self.collection_route)(cls)
-            cls = view_config(_depth=1, renderer='json', permission=self.permission, attr='create', request_method='POST', route_name=self.collection_route)(cls)
+            cls = view_config(_depth=1, renderer='json', http_cache=self.http_cache, permission=self.permissions['list'], attr='list', request_method='GET', route_name=self.collection_route)(cls)
+            cls = view_config(_depth=1, renderer='json', http_cache=self.http_cache, permission=self.permissions['create'], attr='create', request_method='POST', route_name=self.collection_route)(cls)
+        if self.route:
+            cls = view_config(_depth=1, renderer='json', http_cache=self.http_cache, permission=self.permissions['detail'], attr='detail', request_method='GET', route_name=self.route)(cls)
+            cls = view_config(_depth=1, renderer='json', http_cache=self.http_cache, permission=self.permissions['update'], attr='update', request_method='PUT', route_name=self.route)(cls)
+            cls = view_config(_depth=1, renderer='json', http_cache=self.http_cache, permission=self.permissions['delete'], attr='delete', request_method='DELETE', route_name=self.route)(cls)
         return cls

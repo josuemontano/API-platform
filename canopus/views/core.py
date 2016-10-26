@@ -5,7 +5,7 @@ from ..models.core import Post
 from ..schema.core import PostSchema
 
 
-@CRUDRegistrar(route='post', collection_route='posts', permission='view')
+@CRUDRegistrar(route='post', collection_route='posts', default='view')
 class PostsView(CRUDBaseView):
     resource = Post
     schema_many = PostSchema(many=True, only=('id', 'title'))
