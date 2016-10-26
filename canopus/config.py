@@ -1,18 +1,14 @@
-from pyramid.authorization import ACLAuthorizationPolicy
 from pyramid.config import Configurator
 
-from .auth.policy import JWTAuthenticationPolicy
-from .views.security import groupfinder, RootFactory
+from .views.security import RootFactory
 
 
 def configure(settings=None):
     # Actually setup our Pyramid Configurator with the values pulled in from
     # the environment as well as the ones passed in to the configure function.
-    config = Configurator(settings=settings,
-                          authentication_policy=JWTAuthenticationPolicy(callback=groupfinder),
-                          authorization_policy=ACLAuthorizationPolicy(),
-                          root_factory=RootFactory)
+    config = Configurator(settings=settings, root_factory=RootFactory)
 
+    config.include('.auth')
     config.include('.models')
     config.include('.tasks')
     config.include('.mailer')
