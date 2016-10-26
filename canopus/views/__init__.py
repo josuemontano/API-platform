@@ -19,6 +19,7 @@ def robots(request):
     return response
 
 
+@view_config(context=KeyError)
 @view_config(context=IntegrityError)
 def bad_request(exc, request):
     raise HTTPBadRequest()

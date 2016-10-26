@@ -9,7 +9,7 @@ def includeme(config):
 
     config.add_route('oauth2-google', '/auth/google')
     config.add_route('oauth2-facebook', '/auth/facebook')
-    config.add_route('oauth2-live', '/auth/live')
+    config.add_route('oauth2-windows', '/auth/windows')
 
     config.add_route('posts', '/api/v1/posts')
     config.add_route('post', '/api/v1/posts/{id}')
