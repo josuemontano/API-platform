@@ -1,1 +1,0 @@
-canopus README
