@@ -6,13 +6,13 @@ from sqlalchemy.ext.declarative import declared_attr
 
 class ModelMixin(object):
     @declared_attr
-    def created(self):
+    def created_at(self):
         return Column(DateTime, nullable=False, default=datetime.now)
 
     @declared_attr
-    def edited(self):
+    def updated_at(self):
         return Column(DateTime, onupdate=datetime.now)
 
     @declared_attr
-    def deleted(self):
+    def deleted_at(self):
         return Column(DateTime)

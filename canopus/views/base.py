@@ -97,8 +97,8 @@ class CRUDBaseView(BaseView):
             self.delete_fallback(item)
 
     def list_queries(self, request):
-        return request.dbsession.query(self.resource.id).filter_by(deleted=None), \
-            self.order_expression(request.dbsession.query(self.resource)).filter_by(deleted=None)
+        return request.dbsession.query(self.resource.id).filter_by(deleted_at=None), \
+            self.order_expression(request.dbsession.query(self.resource)).filter_by(deleted_at=None)
 
     def order_expression(self, query):
         try:
@@ -126,7 +126,7 @@ class CRUDBaseView(BaseView):
         raise NotImplementedError()
 
     def delete_fallback(self, item):
-        item.deleted = datetime.now()
+        item.deleted_at = datetime.now()
 
 
 class CRUDRegistrar(object):
