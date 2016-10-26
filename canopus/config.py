@@ -19,6 +19,7 @@ def configure(settings=None):
     config.include('.routes')
 
     config.include('pyramid_jinja2')
+    config.include('rollbar.contrib.pyramid')
 
     # Use Jinja2 for .html templates
     config.add_renderer('.html', 'pyramid_jinja2.renderer_factory')

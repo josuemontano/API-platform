@@ -23,6 +23,7 @@ requires = [
     'requests',
     'alembic',
     'apscheduler',
+    'rollbar'
 ]
 
 setup(name='canopus',
