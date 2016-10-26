@@ -1,130 +1,60 @@
 import json
-import logging
 
 import requests
+from pyramid.view import view_config, view_defaults
 from pyramid.httpexceptions import HTTPNotFound
-from pyramid.view import view_config
-from sqlalchemy.orm.exc import NoResultFound
 
-from ..auth.jwt import create_token
-from ..models.auth import Role, User
-
-log = logging.getLogger(__name__)
+from ..models import User
+from ..auth import TokenFactory
 
 
-@view_config(route_name='oauth2-google', renderer='json', request_method='POST')
-def google(request):
-    access_token_url = 'https://accounts.google.com/o/oauth2/token'
-    people_api_url = 'https://www.googleapis.com/plus/v1/people/me/openIdConnect'
-    payload = dict(client_id=request.json['clientId'],
-                   redirect_uri=request.json['redirectUri'],
-                   client_secret=request.registry.settings['GOOGLE_SECRET'],
-                   code=request.json['code'],
-                   grant_type='authorization_code')
+@view_defaults(renderer='json', request_method='POST')
+class Authenticator(object):
+    def __init__(self, request):
+        self.request = request
 
-    # Step 1. Exchange authorization code for access token.
-    r = requests.post(access_token_url, data=payload)
-    token = json.loads(r.text)
-    headers = {'Authorization': 'Bearer {0}'.format(token['access_token'])}
+    @view_config(route_name='oauth2-google')
+    def google(self):
+        profile_api_url = 'https://www.googleapis.com/plus/v1/people/me/openIdConnect'
+        profile = self.get_profile(profile_api_url)
 
-    # Step 2. Retrieve information about the current user.
-    r = requests.get(people_api_url, headers=headers)
-    profile = json.loads(r.text)
-
-    try:
-        user = request.dbsession.query(User).filter_by(google=profile['sub']).one()
-    except NoResultFound:
-        user = create_user(request.dbsession, profile['email'], _google=profile['sub'])
-        if user is None:
+        try:
+            return self.issue_access_token(profile['email'])
+        except:
             raise HTTPNotFound()
 
-    token = create_token(user)
-    return dict(token=token)
+    @view_config(route_name='oauth2-facebook')
+    def facebook(self):
+        profile_api_url = 'https://graph.facebook.com/v2.5/me?fields=id,email'
+        profile = self.get_profile(profile_api_url)
 
-
-@view_config(route_name='oauth2-facebook', renderer='json', request_method='POST')
-def facebook(request):
-    access_token_url = 'https://graph.facebook.com/v2.3/oauth/access_token'
-    graph_api_url = 'https://graph.facebook.com/v2.3/me'
-    params = {
-        'client_id': request.json['clientId'],
-        'redirect_uri': request.json['redirectUri'],
-        'client_secret': request.registry.settings['FACEBOOK_SECRET'],
-        'code': request.json['code']
-    }
-
-    # Step 1. Exchange authorization code for access token.
-    r = requests.get(access_token_url, params=params)
-    access_token = json.loads(r.text)
-
-    # Step 2. Retrieve information about the current user.
-    r = requests.get(graph_api_url, params=access_token)
-    profile = json.loads(r.text)
-
-    try:
-        user = request.dbsession.query(User).filter_by(facebook=profile['id']).one()
-    except NoResultFound:
-        user = create_user(request.dbsession, profile['email'], _facebook=profile['id'])
-        if user is None:
+        try:
+            return self.issue_access_token(profile['email'])
+        except:
             raise HTTPNotFound()
 
-    token = create_token(user)
-    return dict(token=token)
+    @view_config(route_name='oauth2-windows')
+    def windows(self):
+        profile_api_url = 'https://apis.live.net/v5.0/me'
+        profile = self.get_profile(profile_api_url)
 
-
-@view_config(route_name='oauth2-live', renderer='json', request_method='POST')
-def live(request):
-    body = request.body.decode("utf-8")
-    body = json.loads(body)
-
-    access_token_url = 'https://login.live.com/oauth20_token.srf'
-    profile_url = 'https://apis.live.net/v5.0/me?access_token='
-    payload = {
-        'client_id': request.json['clientId'],
-        'redirect_uri': request.json['redirectUri'],
-        'client_secret': request.registry.settings['LIVE_SECRET'],
-        'code': body['code'],
-        'grant_type': 'authorization_code',
-    }
-
-    # Step 1. Exchange authorization code for access token.
-    r = requests.post(access_token_url, data=payload)
-    token = json.loads(r.text)
-
-    # Step 2. Retrieve information about the current user.
-    r = requests.get(profile_url + token['access_token'])
-    profile = json.loads(r.text)
-
-    try:
-        user = request.dbsession.query(User).filter_by(live=profile['id']).one()
-    except NoResultFound:
-        user = create_user(request.dbsession, profile['emails']['account'], _live=profile['id'])
-        if user is None:
+        try:
+            return self.issue_access_token(profile['emails']['account'])
+        except:
             raise HTTPNotFound()
 
-    token = create_token(user)
-    return dict(token=token)
+    def issue_access_token(self, email):
+        user = self.request.dbsession.query(User).filter_by(
+                email=email).filter(
+                User.deleted.is_(None)).one()
+        factory = TokenFactory(self.request, user)
+        return factory.create_access_token()
 
+    def get_profile(self, profile_api_url):
+        """Verify with the social provider the token is valid and who the user is """
+        token = self.request.POST['access_token']
+        headers = {'Authorization': 'Bearer {0}'.format(token)}
+        response = requests.get(profile_api_url, headers=headers)
+        profile = json.loads(response.text)
 
-def create_user(dbsession, email, _google=None, _facebook=None, _live=None):
-    """
-    :type dbsession: ``sqlalchemy.orm.Session``
-    :return: Created or updated user
-    """
-    log.info('Request to create user for email %s', email)
-    try:
-        user = dbsession.query(User).filter_by(email=email).one()
-    except NoResultFound:
-        role = dbsession.query(Role).filter_by(is_default=True).one()
-        user = User(email, role)
-        dbsession.add(user)
-
-    if _google is not None:
-        user.google = _google
-    elif _facebook is not None:
-        user.facebook = _facebook
-    elif _live is not None:
-        user.live = _live
-
-    dbsession.flush()
-    return user
+        return profile
