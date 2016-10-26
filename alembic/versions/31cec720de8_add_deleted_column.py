@@ -17,10 +17,10 @@ import sqlalchemy as sa
 
 
 def upgrade():
-    op.add_column('posts', sa.Column('deleted', sa.DateTime(), nullable=True))
-    op.add_column('users', sa.Column('deleted', sa.DateTime(), nullable=True))
+    op.add_column('posts', sa.Column('deleted_at', sa.DateTime(), nullable=True))
+    op.add_column('users', sa.Column('deleted_at', sa.DateTime(), nullable=True))
 
 
 def downgrade():
-    op.drop_column('users', 'deleted')
-    op.drop_column('posts', 'deleted')
+    op.drop_column('users', 'deleted_at')
+    op.drop_column('posts', 'deleted_at')

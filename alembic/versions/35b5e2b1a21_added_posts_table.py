@@ -21,8 +21,8 @@ def upgrade():
                     sa.Column('id', sa.Integer(), nullable=False),
                     sa.Column('title', sa.String(length=100), nullable=False),
                     sa.Column('body', sa.Text(), nullable=True),
-                    sa.Column('created', sa.DateTime(), nullable=False),
-                    sa.Column('edited', sa.DateTime(), nullable=True),
+                    sa.Column('created_at', sa.DateTime(), nullable=False),
+                    sa.Column('updated_at', sa.DateTime(), nullable=True),
                     sa.Column('is_published', sa.Boolean(), nullable=False),
                     sa.PrimaryKeyConstraint('id')
                     )

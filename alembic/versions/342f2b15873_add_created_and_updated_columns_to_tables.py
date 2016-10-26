@@ -1,4 +1,4 @@
-"""Add created and edited columns to tables
+"""Add created_at and updated_at columns to tables
 
 Revision ID: 342f2b15873
 Revises: 32e02371174
@@ -17,10 +17,10 @@ import sqlalchemy as sa
 
 
 def upgrade():
-    op.add_column('users', sa.Column('created', sa.DateTime(), nullable=False))
-    op.add_column('users', sa.Column('edited', sa.DateTime(), nullable=True))
+    op.add_column('users', sa.Column('created_at', sa.DateTime(), nullable=False))
+    op.add_column('users', sa.Column('updated_at', sa.DateTime(), nullable=True))
 
 
 def downgrade():
-    op.drop_column('users', 'edited')
-    op.drop_column('users', 'created')
+    op.drop_column('users', 'updated_at')
+    op.drop_column('users', 'created_at')
