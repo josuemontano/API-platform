@@ -1,6 +1,6 @@
 from pyramid.config import Configurator
 
-from .views.security import RootFactory
+from .auth import RootFactory
 
 
 def configure(settings=None):

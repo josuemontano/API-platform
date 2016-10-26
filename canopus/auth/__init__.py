@@ -1,8 +1,18 @@
 import os
 
 from pyramid.authorization import ACLAuthorizationPolicy
+from pyramid.security import Allow
 
 from ..models import User, Role
+
+
+class RootFactory(object):
+    # TODO: Load from database
+    __acl__ = [(Allow, 'admin', ('admin', 'view')),
+               (Allow, 'user', 'view')]
+
+    def __init__(self, request):
+        self.request = request
 
 
 def groupfinder(userid, request):
