@@ -2,12 +2,12 @@ import json
 import logging
 from datetime import datetime
 
-from pyramid.httpexceptions import HTTPBadRequest, HTTPNotFound
+from pyramid.httpexceptions import HTTPBadRequest, HTTPNotFound, HTTPNoContent
 from pyramid.view import view_config
-from sqlalchemy import asc
 from sqlalchemy.exc import IntegrityError
 
 from .base import BaseView
+from ..services import QueryBuilder
 
 log = logging.getLogger(__name__)
 
@@ -16,55 +16,51 @@ class CRUDBaseView(BaseView):
     resource = None
     schema_many = None
     schema = None
+    query_builder = QueryBuilder
 
     # GET /<resource>?limit=20&offset=100&search=text
     def list(self):
         request = self.request
-        total, query = self.list_queries(request)
-        try:
-            limit = int(request.GET['limit'])
-            offset = int(request.GET['offset'])
+        builder = self.query_builder(self.resource, request)
 
-            if 'search' in request.GET and request.GET['search']:
-                search_query = "%{0}%".format(request.GET['search'])
-                exp = self.search_expression(search_query)
-                if exp is not None:
-                    query = query.filter(exp)
-                    total = total.filter(exp)
-            query = query.limit(limit).offset(offset)
-        except KeyError:
-            log.warn('No limit/offset keys found, will return the whole set of %s', self.resource)
+        total = builder.total()
+        total_count = total.count()
+        self.request.response.headers['X-Total-Count'] = str(total_count)
 
-        total = total.count()
-        return {'meta': {'total': total}, 'data': self.schema_many.dump(query.all()).data}
+        query = builder.all()
+        return self.schema_many.dump(query.all()).data
 
     # POST /<resource>
     def create(self):
-        data = self.load_object()
-        log.info('User %d is creating %s %s', self.current_user_id, data.__class__.__name__, data)
-        self.request.dbsession.add(data)
+        item = self.load_object()
+        self.request.dbsession.add(item)
+        self.request.dbsession.flush()
 
-        return self.schema.dump(data).data
+        log.info('User %d created %s. Params => %s', self.current_user_id, item.__class__.__name__, self.request.json)
+
+        return self.schema.dump(item).data
 
     # GET /<resource>/<id>
     def detail(self):
         pk = int(self.request.matchdict['id'])
-        requested = self.request.dbsession.query(self.resource).get(pk)
-        if not requested:
+        item = self.request.dbsession.query(self.resource).get(pk)
+        if not item or item.deleted_at is not None:
             raise HTTPNotFound()
 
-        return self.schema.dump(requested).data
+        return self.schema.dump(item).data
 
     # PUT /<resource>/<id>
     def update(self):
-        data = self.load_object()
-        item = self.request.dbsession.query(self.resource).get(data.id)
-        if not item:
+        pk = int(self.request.matchdict['id'])
+        item = self.request.dbsession.query(self.resource).get(pk)
+        if not item or item.deleted_at is not None:
             raise HTTPNotFound()
-        
-        log.info('User %d is updating %s %s', self.current_user_id, item.__class__.__name__, item)
 
+        data = self.load_object()
         self.populate_object(item, data)
+
+        log.info('User %d updated %s. Params => %s', self.current_user_id, item.__class__.__name__, self.request.json)
+
         return self.schema.dump(item).data
 
     # DELETE /<resource>/<id>
@@ -72,7 +68,7 @@ class CRUDBaseView(BaseView):
         pk = int(self.request.matchdict['id'])
         request = self.request
         item = request.dbsession.query(self.resource).get(pk)
-        if not item:
+        if not item or item.deleted_at is not None:
             raise HTTPNotFound()
 
         try:
@@ -80,28 +76,14 @@ class CRUDBaseView(BaseView):
             request.dbsession.delete(item)
             request.dbsession.flush()
 
-            return self.schema.dump(item).data
+            log.info('User %d deleted %s. Params => %s', self.current_user_id, item.__class__.__name__, request.params)
         except IntegrityError:
             request.dbsession.rollback()
-            log.warn('There are related records for %s {pk:%s}. WON\'T BE DELETED', item.__class__.__name__, pk)
+            log.error('There are related records for %s. Params => %s. IT WON\'T BE HARD DELETED', item.__class__.__name__, request.params)
             self.delete_fallback(item)
+        finally:
+            return HTTPNoContent()
 
-    def list_queries(self, request):
-        return request.dbsession.query(self.resource.id).filter_by(deleted_at=None), \
-            self.order_expression(request.dbsession.query(self.resource)).filter_by(deleted_at=None)
-
-    def order_expression(self, query):
-        try:
-            return query.order_by(asc(self.resource.name))
-        except AttributeError:
-            return query
-    
-    def search_expression(self, search_term):
-        try:
-            return self.resource.name.ilike(search_term)
-        except AttributeError:
-            return None
-    
     def load_object(self):
         body = self.request.body.decode("utf-8")
         body = json.loads(body)
