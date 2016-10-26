@@ -10,11 +10,9 @@ class TokenFactory(object):
 
     def create_access_token(self):
         user = self.user
-        if user.last_signed_in is None:
-            user.welcome()
         user.last_signed_in = datetime.now()
 
         token = self.request.create_jwt_token(user.id, expiration=timedelta(days=7))
         user_schema = UserSchema(exclude=('enabled',))
 
-        return dict(token=token, user={})
+        return dict(token=token, user=user_schema.dump(user).data)
