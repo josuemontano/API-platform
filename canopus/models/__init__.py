@@ -5,8 +5,8 @@ import zope.sqlalchemy
 
 # import or define all models here to ensure they are attached to the
 # Base.metadata prior to any initialization routines
-from .auth import Role, User
 from .core import Post
+from .user import Role, User
 
 # run configure_mappers after defining all of the models to ensure
 # all relationships can be setup
