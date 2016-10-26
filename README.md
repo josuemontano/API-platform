@@ -1,5 +1,5 @@
 # Canopus
-[![Build Status](http://img.shields.io/travis/josuemontano/api-starter.svg?style=flat)](https://travis-ci.org/josuemontano/API-platform)
+[![Build Status](https://travis-ci.org/josuemontano/API-platform.svg?branch=master)](https://travis-ci.org/josuemontano/API-platform)
 
 **Live Demo:** [https://api-hanovit.rhcloud.com](https://api-hanovit.rhcloud.com)
 
