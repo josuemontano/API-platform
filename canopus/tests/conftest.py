@@ -4,8 +4,9 @@ from pyramid import testing
 
 from pyramid_jwt.policy import JWTAuthenticationPolicy
 
-from canopus.models import User, Post
 from canopus.auth import RootFactory
+from canopus.models import User, Post
+from canopus.tests.factory import UserFactory
 
 
 @pytest.yield_fixture

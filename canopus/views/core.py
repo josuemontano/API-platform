@@ -1,6 +1,6 @@
 from sqlalchemy import asc, desc
 
-from .base import CRUDBaseView, CRUDRegistrar
+from .crud import CRUDBaseView, CRUDRegistrar
 from ..models import Post
 from ..schema import PostSchema
 
