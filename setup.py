@@ -57,5 +57,5 @@ setup(name='canopus',
       install_requires=requires,
       entry_points="""\
       [paste.app_factory]
-      main = metropolitan:main
+      main = canopus:main
       """,)
