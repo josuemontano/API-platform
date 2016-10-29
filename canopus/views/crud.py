@@ -7,7 +7,7 @@ from pyramid.view import view_config
 from sqlalchemy.exc import IntegrityError
 
 from .base import BaseView
-from ..services import QueryBuilder
+from ..query import QueryBuilder
 
 log = logging.getLogger(__name__)
 
