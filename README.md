@@ -48,23 +48,24 @@ mod_wsgi-express start-server wsgi.py --port 6543
 
 ## Frontend
 
-The frontend is served by the same Pyramid app, so you don't have to run it separately on a NodeJS server or whatever. I often find myself in need to deploy this way due to infraestructure limitations.
-
-Grunt tasks are set up, so install [NodeJS](http://nodejs.org) on your development computer. Then install the project dependencies:
+The frontend is served by the same Pyramid app. Grunt tasks for AngularJS minification and Sass compiling are set up, so install [NodeJS](http://nodejs.org) on your development conputer. Then install the project dependencies:
 
 ```bash
 cd $VENV/metropolitan
 npm install
-grunt build
 ```
 
-Now you're a `grunt` away!
+#### Grunt tasks
 
-**Note:** Please note Browsersync is enabled and the proxy port is set to 6543, so make sure the server is running on this port.
+`Gruntfile.js` defines two tasks: default and build. Use the default task for development, for deployment run `grunt build`.
+
+**Note:** Please note Browsersync is enabled and the proxy port is set to 6543, so make sure the server is running on this port or change it to the desired one.
 
 ## Deploying on OpenShift
 
-You can deploy on [OpenShift](https://openshift.redhat.com) over HTTPS out of the box. When creating your application just fill in the Source Code field with the value: [https://github.com/josuemontano/API-platform](https://github.com/josuemontano/API-platform). All is left to you is the DB configuration, as explained before, and setting the `JWT_SECRET` variable.
+You can deploy on [OpenShift](https://openshift.redhat.com) over HTTPS out of the box. When creating your application just fill in the Source Code field with the value: [https://github.com/josuemontano/API-platform](https://github.com/josuemontano/API-platform). Then update the DB settings, as explained before.
+
+Do not forget to set the `JWT_SECRET` variable:
 
 ```bash
 rhc env set JWT_SECRET=secret -a app_name
