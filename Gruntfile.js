@@ -9,15 +9,11 @@ module.exports = function (grunt) {
         watch: {
             sass: {
                 files: 'client/assets/scss/*.scss',
-                tasks: ['sass']
+                tasks: ['sass', 'copy']
             },
-            angularjs: {
-                files: 'client/app/**/*.js',
-                tasks: ['concat', 'uglify']
-            },
-            html: {
-                files: 'client/app/modules/**/*.html',
-                tasks: ['htmlmin']
+            browserify: {
+                files: ['client/js/app/**/*.coffee', 'client/js/app/**/*.hbs'],
+                tasks: ['browserify', 'uglify']
             }
         },
         browserSync: {
@@ -34,14 +30,43 @@ module.exports = function (grunt) {
                 }
             }
         },
-        jshint: {
-            options: {
-                jshintrc: '.jshintrc'
+        browserify: {
+            dist: {
+                files: {
+                    '<%= pkg.name %>/static/js/<%= pkg.name %>.js': ['client/js/app/**/*.coffee'],
+                },
+                options: {
+                    browserifyOptions: {
+                        extensions: ['.coffee', '.hbs']
+                    },
+                    transform: [
+                        'coffeeify',
+                        ['hbsfy', {
+                            processContent: function(content) {
+                                // content = content.replace(/^[\x20\t]+/mg, '').replace(/[\x20\t]+$/mg, '');
+                                // content = content.replace(/^[\r\n]+/, '').replace(/[\r\n]*$/, '\n');
+                                return content;
+                            }
+                        }],
+                        'uglifyify'
+                    ],
+                }
             },
-            all: [
-                'Gruntfile.js',
-                'client/app/**/*.js',
-            ]
+        },
+        uglify: {
+            options: {
+                sourceMap: true,
+                banner: '/**' +
+                        '\n * <%= pkg.name %>' +
+                        '\n * @version <%= pkg.version %>' +
+                        '\n * @date <%= grunt.template.today("dd-mm-yyyy") %>' +
+                        '\n**/\n'
+            },
+            dist: {
+                files: {
+                    '<%= pkg.name %>/static/js/<%= pkg.name %>.min.js': ['<%= pkg.name %>/static/js/<%= pkg.name %>.js']
+                }
+            }
         },
         sass: {
             dist: {
@@ -58,46 +83,32 @@ module.exports = function (grunt) {
                 }]
             }
         },
-        concat: {
-            dist: {
-                src: ['client/app/**/*.js'],
-                dest: '<%= pkg.name %>/static/js/<%= pkg.name %>.js'
-            }
-        },
-        uglify: {
-            options: {
-                banner: '/**' +
-                        '\n * <%= pkg.name %>' +
-                        '\n * @version <%= pkg.version %>' +
-                        '\n * @date <%= grunt.template.today("dd-mm-yyyy") %>' +
-                        '\n**/\n'
-            },
-            dist: {
-                files: {
-                    '<%= pkg.name %>/static/js/<%= pkg.name %>.min.js': ['<%= concat.dist.dest %>']
-                }
-            }
-        },
-        htmlmin: {
-            dist: {
-                options: {
-                    removeComments: true,
-                    collapseWhitespace: true
-                },
+        copy: {
+            main: {
                 files: [{
-                    expand: true,
-                    cwd: 'client/app/modules',
-                    src: '**/*.html',
-                    dest: '<%= pkg.name %>/static/ui'
+                    cwd: 'client/assets/img',
+                    src: ['**/*'],
+                    dest: '<%= pkg.name %>/static/img',
+                    expand: true
+                }, {
+                    cwd: 'client/assets/css',
+                    src: ['**/*'],
+                    dest: '<%= pkg.name %>/static/css',
+                    expand: true
                 }]
             }
         },
-        copy: {
-            files: {
-                cwd: 'client/assets/img',
-                src: '**/*',
-                dest: '<%= pkg.name %>/static/img',
-                expand: true
+        coffeelint: {
+            app: ['client/js/app/**/*.coffee'],
+            options: {
+                'max_line_length': {
+                  'level': 'warn'
+                }
+            }
+        },
+        karma: {
+            unit: {
+                configFile: 'karma.conf.js'
             }
         }
     });
@@ -110,8 +121,8 @@ module.exports = function (grunt) {
     grunt.registerTask('build', [
         'copy',
         'sass',
-        'concat',
+        'coffeelint',
+        'browserify',
         'uglify',
-        'htmlmin'
     ]);
 };
