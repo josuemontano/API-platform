@@ -11,7 +11,7 @@ The server is built on top of [Pyramid](http://trypyramid.com) (web development 
 
 The front end is an AngularJS 1 application built with [Satellizer](https://github.com/sahat/satellizer), [AngularUI Router](https://github.com/angular-ui/ui-router) and [Restangular](https://github.com/mgonto/restangular).
 
-### Database
+## Database
 
 The project has a PostgreSQL connection configured by default. Change the `sqlalchemy.url` property in `development.ini` and `alembic.ini` to match your database settings. Make sure you have PostgreSQL set in your PATH, psycopg2 requires it. If using [PostgresApp](http://postgresapp.com/), as I do, add these lines to your bash profile
 
@@ -46,7 +46,7 @@ You may also want to deploy the app with WSGI locally using [mod_wsgi](https://m
 mod_wsgi-express start-server wsgi.py --port 6543
 ```
 
-### Frontend
+## Frontend
 
 The frontend is served by the same Pyramid app, so you don't have to run it separately on a NodeJS server or whatever. I often find myself in need to deploy this way due to infraestructure limitations.
 
@@ -62,7 +62,7 @@ Now you're a `grunt` away!
 
 **Note:** Please note Browsersync is enabled and the proxy port is set to 6543, so make sure the server is running on this port.
 
-### OpenShift
+## Deploying on OpenShift
 
 You can deploy on [OpenShift](https://openshift.redhat.com) over HTTPS out of the box. When creating your application just fill in the Source Code field with the value: [https://github.com/josuemontano/API-platform](https://github.com/josuemontano/API-platform). All is left to you is the DB configuration, as explained before, and setting the `JWT_SECRET` variable.
 
