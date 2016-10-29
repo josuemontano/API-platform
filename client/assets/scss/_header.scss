@@ -1,0 +1,39 @@
+// Header
+// -------------------------------
+
+header {
+  margin-bottom: 3em;
+
+  .title {
+    padding: 0.25em;
+    color: $light;
+    font-stretch: ultra-condensed;
+  }
+
+  ul {
+    margin: 0;
+    text-align: right;
+      
+    li {
+      display: inline-block;
+      margin: 1.5em 0 0 1.5em;
+
+      a {
+        padding: 0.5em 0;
+        color: $light !important;
+        text-transform: uppercase;
+        transition: all 0.5s linear;
+
+        &:hover {
+          border-bottom: 1px solid $light;
+        }
+      }
+
+      &.active {
+        a {
+          border-bottom: 1px solid $light;
+        }
+      }
+    }
+  }
+}
