@@ -25,6 +25,7 @@
     "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
     "hellojs": "^1.17.1",
+    "js-cookie": "^2.2.0",
     "preact": "^8.3.1",
     "preact-compat": "^3.18.3",
     "preact-router": "^2.6.1",
