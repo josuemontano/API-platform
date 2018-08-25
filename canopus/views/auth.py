@@ -1,6 +1,7 @@
 import json
-from datetime import datetime, timedelta
+from datetime import timedelta
 
+import pendulum
 import requests
 from pyramid.request import Request
 from pyramid.view import view_config, view_defaults
@@ -20,11 +21,13 @@ class AuthenticatorView:
             user = self.request.dbsession.query(User).filter_by(email=email, is_enabled=True).one_or_none()
 
         if user:
+            now = pendulum.now()
             expire_in = timedelta(days=7)
+            expires_at = now.add(days=7)
             access_token = self.request.create_jwt_token(user.id, expiration=expire_in)
-            user.last_signed_in_at = datetime.now()
+            user.last_signed_in_at = now
 
-            return dict(access_token=access_token, user=UserSchema().dump(user))
+            return dict(user=UserSchema().dump(user), access_token=access_token, expires=expires_at.format(pendulum.constants.ISO8601))
         else:
             return HTTPUnprocessableEntity()
 

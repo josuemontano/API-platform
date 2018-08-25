@@ -2,12 +2,8 @@ import * as Cookies from 'js-cookie';
 import axios from 'axios';
 import { route } from 'preact-router';
 
-
-function storeUserCredentials(user, accessToken) {
-  Cookies.set('crendentials', {
-    id: user.id,
-    access_token: accessToken,
-  });
+function storeUserCredentials({ user, accessToken, expires }) {
+  Cookies.set('crendentials', { user, accessToken }, { expires: new Date(expires) });
 }
 
 export function getUserCredentials() {
@@ -19,8 +15,8 @@ export function isAuthenticated() {
   return !(crendentials === null || crendentials === undefined);
 }
 
-export function onLogin(user, accessToken) {
-  storeUserCredentials(user, accessToken);
+export function onLogin(response) {
+  storeUserCredentials(response);
   route('/', true);
 }
 
@@ -33,8 +29,9 @@ export function authenticate(params = {}) {
   axios
     .post(`/auth/${params.network}`, { access_token: params.access_token })
     .then(response => response.data)
-    .then(response => onLogin(response.user, response.access_token))
+    .then(onLogin)
     .catch((error) => {
       alert('User could not login');
+      console.error(error);
     });
 }
