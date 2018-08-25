@@ -1,21 +1,32 @@
+import * as Cookies from 'js-cookie';
 import axios from 'axios';
+import { route } from 'preact-router';
 
 
 function storeUserCredentials(user, accessToken) {
-  const crendentials = {
+  Cookies.set('crendentials', {
     id: user.id,
     access_token: accessToken,
-  };
-  localStorage.setItem('user', JSON.stringify(crendentials));
+  });
 }
 
 export function getUserCredentials() {
-  return JSON.parse(localStorage.getItem('user')) || {};
+  return Cookies.getJSON('crendentials');
+}
+
+export function isAuthenticated() {
+  const crendentials = getUserCredentials();
+  return !(crendentials === null || crendentials === undefined);
 }
 
 export function onLogin(user, accessToken) {
   storeUserCredentials(user, accessToken);
-  window.location = '/';
+  route('/', true);
+}
+
+export function logout() {
+  Cookies.remove('crendentials');
+  route('/login', true);
 }
 
 export function authenticate(params = {}) {
