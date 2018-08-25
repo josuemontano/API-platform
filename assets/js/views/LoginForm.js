@@ -2,19 +2,21 @@ import hello from 'hellojs';
 import { authenticate } from '~/utils/auth';
 import { h, Component } from 'preact';
 
-
 export default class LoginForm extends Component {
   constructor(props) {
     super(props);
 
-    hello.init({
-      google: props.googleClientID,
-      windows: props.windowsClientID,
-    }, {
-      display: 'page',
-      page_uri: window.location.href,
-      redirect_uri: '/login',
-    });
+    hello.init(
+      {
+        google: props.googleClientID,
+        windows: props.windowsClientID,
+      },
+      {
+        display: 'page',
+        page_uri: window.location.href,
+        redirect_uri: '/login',
+      },
+    );
 
     this.loginUserOnRedirect();
   }
