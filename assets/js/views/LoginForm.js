@@ -3,6 +3,24 @@ import { authenticate } from '~/utils/auth';
 import { h, Component } from 'preact';
 
 export default class LoginForm extends Component {
+  static onGoogleLogin() {
+    const provider = hello('google');
+    provider.login({ scope: 'openid, email', force: true });
+  }
+
+  static onWindowsLogin() {
+    const provider = hello('windows');
+    provider.login({ scope: 'email', force: true });
+  }
+
+  static loginUserOnRedirect() {
+    // Login user on redirection
+    let authResponse = hello('google').getAuthResponse();
+    if (!authResponse) authResponse = hello('windows').getAuthResponse();
+
+    if (authResponse) authenticate(authResponse);
+  }
+
   constructor(props) {
     super(props);
 
@@ -18,25 +36,7 @@ export default class LoginForm extends Component {
       },
     );
 
-    this.loginUserOnRedirect();
-  }
-
-  static onGoogleLogin() {
-    const provider = hello('google');
-    provider.login({ scope: 'openid, email', force: true });
-  }
-
-  static onWindowsLogin() {
-    const provider = hello('windows');
-    provider.login({ scope: 'email', force: true });
-  }
-
-  loginUserOnRedirect() {
-    // Login user on redirection
-    let authResponse = hello('google').getAuthResponse();
-    if (!authResponse) authResponse = hello('windows').getAuthResponse();
-
-    if (authResponse) authenticate(authResponse);
+    LoginForm.loginUserOnRedirect();
   }
 
   render() {
