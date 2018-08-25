@@ -18,6 +18,7 @@ lib64/
 parts/
 sdist/
 var/
+tmp/
 *.egg-info/
 .installed.cfg
 *.egg
@@ -75,3 +76,8 @@ Thumbs.db
 # NodeJS
 node_modules/
 npm-debug.log
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+.je-project-settings/
