@@ -1,0 +1,10 @@
+{
+  "presets": ["env"],
+  "plugins": [
+    "syntax-dynamic-import",
+    "transform-runtime",
+    ["transform-react-jsx", {
+      "pragma": "h"
+    }]
+  ]
+}

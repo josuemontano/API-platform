@@ -1,72 +1,94 @@
-# Canopus
+canopus
+=======
+
 [![Build Status](https://travis-ci.org/josuemontano/API-platform.svg?branch=master)](https://travis-ci.org/josuemontano/API-platform)
 
-**Live Demo:** [https://api-hanovit.rhcloud.com](https://api-hanovit.rhcloud.com)
+## What you get
 
----
+- Pyramid web framework
+- Cornice for REST endpoints
+- Database migrations with alembic
+- JWT authentication
+- Login with Google and Microsoft accounts
+- Task queues with Huey
+- Pytest
+- Webpack 4
+- Preact
+- ESLint
+- Dokku deployments
 
-This project was built to provide a starting point to develop RESTful applications with Pyramid and AngularJS.
+## Getting started
 
-The backend is built on top of [Pyramid](http://trypyramid.com). The app implements JSON Web Token authentication. The frontend is an AngularJS 1 application.
+**Important**: Install Python 3.6.x and npm 8.x before proceeding.
 
-## Database
+```sh
+# Change directory into your newly created project.
+cd canopus
 
-The project has a PostgreSQL connection configured by default. Change the `sqlalchemy.url` property in `development.ini` and `alembic.ini` to match your database settings. Make sure you have PostgreSQL set in your PATH, psycopg2 requires it.
+# Install poetry
+pip3 install poetry
 
-For [PostgresApp](http://postgresapp.com/) you have to add these lines to your bash profile:
-
-```bash
-export PATH=/Applications/Postgres.app/Contents/Versions/9.4/bin:$PATH
-export DYLD_LIBRARY_PATH=/Applications/Postgres.app/Contents/MacOS/lib
-```
-
-It should be straightforward to configure the SQL database of your preference.
-
-## Backend
-
-The app is configured to use a PostgreSQL database, so make sure you have one up and running; then configure the settings for SQLAlchemy on `development.ini` and `alembic.ini`. The first time you have to run the migrations:
-
-```bash
-cd $VENV/metropolitan
-$VENV/bin/alembic upgrade head
-```
-
-Then, to run the app do:
-
-```bash
-cd $VENV/metropolitan
-$VENV/bin/python setup.py develop
-$VENV/bin/pserve development.ini --reload
-```
-
-You may also want to deploy the app with WSGI locally using [mod_wsgi](https://modwsgi.readthedocs.org/en/master/).
-
-```bash
-../bin/pip install mod_wsgi
-mod_wsgi-express start-server wsgi.py --port 6543
-```
-
-## Frontend
-
-The frontend is served by the same Pyramid app. Grunt tasks for AngularJS minification and Sass compiling are set up, so install [NodeJS](http://nodejs.org) on your development conputer. Then install the project dependencies:
-
-```bash
-cd $VENV/metropolitan
+# Install the project in editable mode with its testing requirements.
+poetry develop
 npm install
+
+# Run database migrations.
+poetry run alembic upgrade head
+
+# Run your project's tests.
+poetry run pytest --cov=canopus
+
+# Run your project.
+npm start
+poetry run pserve development.ini --reload
 ```
 
-#### Grunt tasks
+## Deployment
 
-`Gruntfile.js` defines two tasks: default and build. Use the default task for development, for deployment run `grunt build`.
+Given you added the remote repository you just need to do `git push production master` to deploy to your production server.
 
-**Note:** Please note Browsersync is enabled and the proxy port is set to 6543, so make sure the server is running on this port or change it to the desired one.
+```sh
+git remote add production dokku@ip:canopus
+```
 
-## Deploying on OpenShift
+**Note:** Assets are not compiled at deployment, therefore you need to compile them by yourself with `npm run build`.
 
-You can deploy on [OpenShift](https://openshift.redhat.com) over HTTPS out of the box. When creating your application just fill in the Source Code field with the value: [https://github.com/josuemontano/API-platform](https://github.com/josuemontano/API-platform). Then update the DB settings, as explained before.
+## New server instances
 
-Finally, do not forget to set the `JWT_SECRET` variable:
+```sh
+# Install Dokku
+wget https://raw.githubusercontent.com/dokku/dokku/v0.12.12/bootstrap.sh
+sudo DOKKU_TAG=v0.12.12 bash bootstrap.sh
 
-```bash
-rhc env set JWT_SECRET=secret -a app_name
+# Create the dokku app
+dokku apps:create canopus
+
+# Install PostgreSQL and PostGIS
+sudo dokku plugin:install https://github.com/dokku/dokku-postgres.git postgres
+sudo docker pull mdillon/postgis:latest
+
+export POSTGRES_IMAGE="mdillon/postgis"
+export POSTGRES_IMAGE_VERSION="latest"
+dokku postgres:create canopus
+dokku postgres:link canopus canopus
+
+# Install redis
+sudo dokku plugin:install https://github.com/dokku/dokku-redis.git redis
+dokku redis:create canopus
+dokku redis:link canopus canopus
+
+# Configure env variables
+dokku config:set canopus JWT_SECRET=
+dokku config:set canopus APP_CONFIG_FILE=production.ini
+dokku config:set canopus PG_DATABASE_URL=postgres://postgres:@dokku-postgres-canopus:5432/canopus
+
+dokku ps:scale canopus web=1 worker=1
+
+# Setup DNS
+dokku domains:add canopus example.com
+
+# Generate an SSL certificate
+sudo dokku plugin:install https://github.com/dokku/dokku-letsencrypt.git
+dokku config:set --no-restart canopus DOKKU_LETSENCRYPT_EMAIL=
+dokku letsencrypt canopus
 ```

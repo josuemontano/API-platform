@@ -1,3 +1,5 @@
+import os
+
 from sqlalchemy import engine_from_config
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import configure_mappers
@@ -5,8 +7,8 @@ import zope.sqlalchemy
 
 # import or define all models here to ensure they are attached to the
 # Base.metadata prior to any initialization routines
-from .core import Post
-from .user import Role, User
+from .core import Post  # flake8: noqa
+from .user import Role, User  # flake8: noqa
 
 # run configure_mappers after defining all of the models to ensure
 # all relationships can be setup
@@ -14,6 +16,7 @@ configure_mappers()
 
 
 def get_engine(settings, prefix='sqlalchemy.'):
+    settings['sqlalchemy.url'] = os.environ.get('PG_DATABASE_URL', settings['sqlalchemy.url'])
     return engine_from_config(settings, prefix)
 
 
@@ -54,13 +57,17 @@ def includeme(config):
     """
     Initialize the model for a Pyramid app.
 
-    Activate this setup using ``config.include('testSQL.models')``.
+    Activate this setup using ``config.include('canopus.models')``.
 
     """
     settings = config.get_settings()
+    settings['tm.manager_hook'] = 'pyramid_tm.explicit_manager'
 
     # use pyramid_tm to hook the transaction lifecycle to the request
     config.include('pyramid_tm')
+
+    # use pyramid_retry to retry a request when transient exceptions occur
+    config.include('pyramid_retry')
 
     session_factory = get_session_factory(get_engine(settings))
     config.registry['dbsession_factory'] = session_factory

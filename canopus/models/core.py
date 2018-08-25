@@ -1,10 +1,10 @@
 from sqlalchemy import Boolean, Column, Integer, String, Text
 
-from .base import ModelMixin
+from .base import BaseModel
 from .meta import Base
 
 
-class Post(Base, ModelMixin):
+class Post(Base, BaseModel):
     __tablename__ = 'posts'
 
     id = Column(Integer, primary_key=True, autoincrement=True)

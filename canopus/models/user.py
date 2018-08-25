@@ -1,31 +1,35 @@
-from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, String
-from sqlalchemy.orm import relationship
+from sqlalchemy import Boolean, Column, DateTime, Integer, String
+from sqlalchemy.ext.hybrid import hybrid_property
+from sqlalchemy_utils import ChoiceType, EmailType, PhoneNumberType
 
-from .base import ModelMixin
+from .base import BaseModel
+from .lib import OrderedEnum
 from .meta import Base
 
 
-class Role:
+class Role(OrderedEnum):
     USER = 10
     ADMIN = 20
 
 
-class User(Base, ModelMixin):
+class User(Base, BaseModel):
     __tablename__ = 'users'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     first_name = Column(String(100), nullable=False)
     last_name = Column(String(100), nullable=False)
-    email = Column(String(250))
-    phone = Column(String(50))
-    role = Column(Integer, nullable=False)
-    enabled = Column(Boolean, nullable=False, default=True)
+    email = Column(EmailType)
+    phone = Column(PhoneNumberType())
+    role = Column(ChoiceType(Role, impl=Integer()), nullable=False)
+    is_enabled = Column(Boolean, nullable=False, default=True)
+
     last_signed_in_at = Column(DateTime)
 
-    def fullname(self, last_name_first=False):
-        """
-        :param last_name_first:
-        :rtype: str
-        """
-        pattern = '{1}, {0}' if last_name_first else '{0} {1}'
-        return pattern.format(self.first_name.strip(), self.last_name.strip())
+    @hybrid_property
+    def is_admin(self):
+        role = self.role
+        return role and role >= Role.ADMIN
+
+    @hybrid_property
+    def full_name(self):
+        return f'{self.first_name} {self.last_name}'

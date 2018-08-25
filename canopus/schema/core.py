@@ -1,19 +1,10 @@
-from marshmallow import Schema, fields, post_load
+from marshmallow_sqlalchemy import ModelSchema
 
 from ..models import Post
 
 
-class PostSchema(Schema):
-    __model__ = Post
-
-    id = fields.Integer()
-    title = fields.String()
-    body = fields.String()
-    is_published = fields.Boolean()
-
+class PostSchema(ModelSchema):
     class Meta:
-        ordered = True
-
-    @post_load
-    def make_object(self, data):
-        return self.__model__(**data)
+        model = Post
+        dump_only = ('created_at', 'updated_at')
+        exclude = ('deleted_at',)

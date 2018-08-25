@@ -1,4 +1,7 @@
 from __future__ import with_statement
+
+import os
+
 from alembic import context
 from sqlalchemy import engine_from_config, pool
 from logging.config import fileConfig
@@ -14,8 +17,6 @@ fileConfig(config.config_file_name)
 # add your model's MetaData object here
 # for 'autogenerate' support
 from canopus.models.meta import Base
-from canopus.models import core
-from canopus.models import user
 target_metadata = Base.metadata
 
 # other values from the config, defined by the needs of env.py,
@@ -36,8 +37,9 @@ def run_migrations_offline():
     script output.
 
     """
-    url = config.get_main_option("sqlalchemy.url")
-    context.configure(url=url, target_metadata=target_metadata)
+    url = os.getenv("PG_DATABASE_URL", default=config.get_main_option("sqlalchemy.url"))
+    context.configure(
+        url=url, target_metadata=target_metadata, literal_binds=True)
 
     with context.begin_transaction():
         context.run_migrations()
@@ -50,16 +52,18 @@ def run_migrations_online():
     and associate a connection with the context.
 
     """
+    settings = config.get_section(config.config_ini_section)
+    settings['sqlalchemy.url'] = os.environ.get('PG_DATABASE_URL', settings['sqlalchemy.url'])
+
     connectable = engine_from_config(
-        config.get_section(config.config_ini_section),
+        settings,
         prefix='sqlalchemy.',
         poolclass=pool.NullPool)
 
     with connectable.connect() as connection:
         context.configure(
             connection=connection,
-            target_metadata=target_metadata,
-            compare_type=True,
+            target_metadata=target_metadata
         )
 
         with context.begin_transaction():

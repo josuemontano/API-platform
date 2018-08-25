@@ -1,0 +1,9 @@
+{% extends "layout.jinja2" %}
+
+{% block content %}
+<script type="text/javascript">
+  window.googleClientID   = "{{ google_app_id }}";
+  window.windowsClientID  = "{{ windows_app_id }}";
+</script>
+<script src="{{ 'app.js' | webpack }}"></script>
+{% endblock content %}

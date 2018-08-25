@@ -1,4 +1,3 @@
 [run]
-omit =
-    canopus/tests/*
-    canopus/routes.py
+source = canopus
+omit = canopus/test*

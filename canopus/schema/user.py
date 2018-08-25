@@ -1,22 +1,13 @@
-from marshmallow import Schema, fields, post_load
+from marshmallow_enum import EnumField
+from marshmallow_sqlalchemy import ModelSchema
 
-from ..models import User
+from ..models import Role, User
 
 
-class UserSchema(Schema):
-    __model__ = User
-
-    id = fields.Integer()
-    first_name = fields.String(required=True)
-    last_name = fields.String(required=True)
-    email = fields.Email(allow_none=True)
-    phone = fields.String(allow_none=True)
-    role = fields.Integer(required=True)
-    enabled = fields.Boolean()
-
+class UserSchema(ModelSchema):
     class Meta:
-        ordered = True
+        model = User
+        dump_only = ('created_at', 'last_signed_in_at', 'updated_at')
+        exclude = ('deleted_at',)
 
-    @post_load
-    def make_object(self, data):
-        return self.__model__(**data)
+    role = EnumField(Role, by_value=True, required=True)

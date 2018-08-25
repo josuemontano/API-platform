@@ -4,21 +4,18 @@ from .auth import RootFactory
 
 
 def configure(settings=None):
-    # Actually setup our Pyramid Configurator with the values pulled in from
-    # the environment as well as the ones passed in to the configure function.
     config = Configurator(settings=settings, root_factory=RootFactory)
 
-    config.include('.auth')
-    config.include('.models')
-    config.include('.tasks')
-    config.include('.mailer')
-    config.include('.routes')
-
+    config.include('cornice')
     config.include('pyramid_jinja2')
+    config.commit() # pyramid_jinja2_webpack requires a jinja2 environment
+    config.include('pyramid_jinja2_webpack')
     config.include('rollbar.contrib.pyramid')
 
-    # Use Jinja2 for .html templates
-    config.add_renderer('.html', 'pyramid_jinja2.renderer_factory')
+    config.include('.models')
+    config.include('.auth')
+    config.include('.routes')
+
     # Scan everything for configuration
     config.scan()
 

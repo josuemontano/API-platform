@@ -1,23 +1,13 @@
-from sqlalchemy import asc, desc
+from cornice.resource import resource
 
-from .crud import CRUDBaseView, CRUDRegistrar
+from .base import BaseView
+from ..auth import RootFactory
 from ..models import Post
 from ..schema import PostSchema
 
 
-@CRUDRegistrar(route='post', collection_route='posts', default='view')
-class PostsView(CRUDBaseView):
-    resource = Post
-    schema_many = PostSchema(many=True, only=('id', 'title'))
-    schema = PostSchema()
-
-    def search_expression(self, search_term):
-        return Post.title.ilike(search_term)
-
-    def order_expression(self, query):
-        return query.order_by(desc(Post.created_at)).order_by(asc(Post.title))
-
-    def populate_object(self, post, data):
-        post.title = data.title
-        post.body = data.body
-        post.is_published = data.is_published
+@resource(collection_path='/api/v1/posts', path='/api/v1/posts/{id}', factory=RootFactory, permission='view')
+class PostsView(BaseView):
+    model = Post
+    model_schema = PostSchema()
+    collection_schema = PostSchema(many=True, only=('id', 'title'))

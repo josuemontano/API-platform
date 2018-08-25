@@ -1,16 +1,17 @@
 import os
 
 from pyramid.authorization import ACLAuthorizationPolicy
-from pyramid.security import Allow
+from pyramid.security import Allow, ALL_PERMISSIONS
 
 from ..models import User, Role
-from .token_factory import TokenFactory
 
 
 class RootFactory(object):
     """Permission definitions"""
-    __acl__ = [(Allow, Role.USER, 'view'),
-               (Allow, Role.ADMIN, ('admin', 'view'))]
+    __acl__ = [
+        (Allow, Role.USER, 'view'),
+        (Allow, Role.ADMIN, ALL_PERMISSIONS)
+    ]
 
     def __init__(self, request):
         self.request = request
@@ -24,11 +25,10 @@ def groupfinder(userid, request):
 
 
 def get_current_user(request):
-    userid = request.unauthenticated_userid
-    user = request.dbsession.query(User).get(userid)
-    if user.deleted_at is None:
-        return user
-    return None
+    user_id = request.unauthenticated_userid
+    return request.dbsession.query(User).filter_by(
+        id=user_id, is_enabled=True).filter(
+        User.deleted_at.is_(None)).one_or_none()
 
 
 def includeme(config):

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="{{request.locale_name}}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Preact app with the Pyramid Web Framework">
+    <meta name="author" content="Josue Montano, josuemontanoa@gmail.com">
+    <meta name="owner" content="Josue Montano, josuemontanoa@gmail">
+    <link rel="shortcut icon" href="{{request.static_url('canopus:static/pyramid-16x16.png')}}">
+
+    <title>Preact app with the Pyramid Web Framework</title>
+
+    <link href="{{ 'vendors.css' | webpack }}" rel="stylesheet">
+    <link href="{{ 'app.css' | webpack }}" rel="stylesheet">
+
+    <script src="{{ 'runtime.js' | webpack }}"></script>
+    <script src="{{ 'vendors.js' | webpack }}"></script>
+  </head>
+
+  <body>
+    {% block content %}
+    {% endblock content %}
+  </body>
+</html>
