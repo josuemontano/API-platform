@@ -92,3 +92,7 @@ sudo dokku plugin:install https://github.com/dokku/dokku-letsencrypt.git
 dokku config:set --no-restart canopus DOKKU_LETSENCRYPT_EMAIL=
 dokku letsencrypt canopus
 ```
+
+## TODOS
+
+- [ ] Setup better logging
