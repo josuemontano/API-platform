@@ -2,6 +2,7 @@ canopus
 =======
 
 [![Build Status](https://travis-ci.org/josuemontano/API-platform.svg?branch=master)](https://travis-ci.org/josuemontano/API-platform)
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
 ## What you get
 
