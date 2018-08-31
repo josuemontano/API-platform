@@ -1,0 +1,4 @@
+#!/bin/bash
+poetry config settings.virtualenvs.create false
+poetry develop
+poetry run alembic upgrade head
