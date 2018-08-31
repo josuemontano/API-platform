@@ -1,7 +1,7 @@
 import pytest
 
+from . import factories
 from canopus.models import Role
-from canopus.tests import factories
 
 
 @pytest.fixture

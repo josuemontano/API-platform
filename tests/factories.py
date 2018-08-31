@@ -18,4 +18,4 @@ class UserFactory(factory.Factory):
     first_name = factory.Faker('first_name')
     last_name = factory.Faker('last_name')
     email = factory.Faker('email')
-    phone = factory.Faker('phone_number')
+    phone = factory.Faker('msisdn')

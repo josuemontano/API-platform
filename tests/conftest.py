@@ -6,7 +6,7 @@ from alembic import command
 from alembic.config import Config
 from pyramid import testing
 
-from canopus.tests.fixtures import *
+from .fixtures import *
 
 PG_USER = os.environ.get('PGUSER', None)
 PG_PASSWORD = os.environ.get('PGPASSWORD', None)

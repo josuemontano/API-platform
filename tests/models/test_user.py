@@ -1,4 +1,4 @@
-from canopus.tests import factories
+from tests import factories
 
 
 class TestUser:

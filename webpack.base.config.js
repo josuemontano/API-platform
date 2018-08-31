@@ -3,7 +3,7 @@ const ManifestPlugin = require('webpack-manifest-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
-  context: path.join(__dirname, 'assets', 'js'),
+  context: path.join(__dirname, 'src', 'assets', 'js'),
   entry: {
     app: './index.js',
   },
@@ -50,7 +50,7 @@ module.exports = {
     ],
   },
   output: {
-    path: path.resolve(path.join(__dirname, 'canopus', 'static')),
+    path: path.resolve(path.join(__dirname, 'src', 'canopus', 'static')),
   },
   optimization: {
     splitChunks: {
@@ -73,7 +73,7 @@ module.exports = {
   plugins: [new ManifestPlugin({ writeToFileEmit: true })],
   resolve: {
     alias: {
-      '~': path.resolve(path.join(__dirname, 'assets', 'js')),
+      '~': path.resolve(path.join(__dirname, 'src', 'assets', 'js')),
       react: 'preact-compat',
       'react-dom': 'preact-compat',
       'react-redux': 'preact-redux',

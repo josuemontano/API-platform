@@ -1,7 +1,7 @@
 import pytest
 
-from canopus.tests import factories
-from canopus.tests.helpers import sign_in
+from tests import factories
+from tests.helpers import sign_in
 
 
 class TestPostViewGET:
