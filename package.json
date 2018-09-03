@@ -9,7 +9,9 @@
   },
   "scripts": {
     "build": "webpack --config webpack.production.config.js --progress --colors",
-    "start": "webpack-dev-server --config webpack.development.config.js --hot --inline"
+    "start": "webpack-dev-server --config webpack.development.config.js --hot --inline",
+    "test": "NODE_ENV=test karma start karma.config.js --single-run",
+    "test:watch": "NODE_ENV=test karma start karma.config.js --auto-watch"
   },
   "repository": {
     "type": "git",
