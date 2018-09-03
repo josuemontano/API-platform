@@ -1,4 +1,4 @@
-import 'babel-polyfill';
+import '@babel/polyfill';
 import 'uikit';
 import { h, render } from 'preact';
 

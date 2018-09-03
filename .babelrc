@@ -1,10 +1,16 @@
 {
-  "presets": ["env"],
+  "presets": [
+    "@babel/preset-env"
+  ],
   "plugins": [
-    "syntax-dynamic-import",
-    "transform-runtime",
-    ["transform-react-jsx", {
-      "pragma": "h"
-    }]
+    "@babel/plugin-syntax-dynamic-import",
+    "@babel/plugin-proposal-class-properties",
+    "@babel/plugin-transform-runtime",
+    [
+      "@babel/plugin-transform-react-jsx",
+      {
+        "pragma": "h"
+      }
+    ]
   ]
 }
