@@ -8,7 +8,7 @@ def configure(settings=None):
 
     config.include('cornice')
     config.include('pyramid_jinja2')
-    config.commit() # pyramid_jinja2_webpack requires a jinja2 environment
+    config.commit()  # pyramid_jinja2_webpack requires a jinja2 environment
     config.include('pyramid_jinja2_webpack')
     config.include('rollbar.contrib.pyramid')
 
