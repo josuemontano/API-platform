@@ -14,6 +14,8 @@ canopus
 - Task queues with Huey
 - Pytest
 - Webpack 4
+- ES2017
+- Karma, mocha and expect.js
 - Preact
 - ESLint
 - Dokku deployments
