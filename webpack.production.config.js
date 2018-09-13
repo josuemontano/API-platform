@@ -9,8 +9,8 @@ module.exports = merge(baseConfig, {
   devtool: 'source-map',
   mode: 'production',
   output: {
-    filename: '[name].[hash:8].js',
-    chunkFilename: '[name].[hash:8].js',
+    filename: '[name].[contenthash:8].js',
+    chunkFilename: '[name].[contenthash:8].js',
   },
   plugins: [
     new MiniCssExtractPlugin({
