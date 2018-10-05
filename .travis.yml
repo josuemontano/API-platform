@@ -13,7 +13,7 @@ before_script:
 env:
   global:
   - PGUSER=postgres
-  - PG_PASSWORD=
+  - PGPASSWORD=
 
 install:
   - pip install poetry
