@@ -9,11 +9,16 @@ import '../css/theme.scss';
 let root;
 
 function init() {
-  let App = require('./views/App').default;
+  const App = require('./views/App').default;
   root = render(<App />, document.body, root);
 }
 
-init();
-
 // Re-render on Webpack HMR update:
-if (module.hot) module.hot.accept('./views/App', init);
+if (module.hot) {
+  __webpack_public_path__ = 'http://localhost:8080/';
+
+  module.hot.accept();
+  module.hot.accept('./views/App', init);
+}
+
+init();
