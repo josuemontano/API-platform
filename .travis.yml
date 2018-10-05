@@ -2,13 +2,11 @@ sudo: false
 language: python
 
 python:
-  - "3.3"
-  - "3.4"
-  - "3.5"
+  - "3.6"
 
 install:
-  - python setup.py develop
-  - pip install -e .[testing]
+  - pip install poetry
+  - poetry develop
 
 script:
-  - py.test
+  - poetry run py.test --cov
