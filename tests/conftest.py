@@ -32,7 +32,7 @@ def ini_config(ini_filepath: str):
     config.read(ini_filepath)
 
     # Setup database URL for Codeship
-    if PG_USER and PG_PASSWORD:
+    if PG_USER:
         connection_url = f'postgresql+psycopg2://{PG_USER}:{PG_PASSWORD}@127.0.0.1:5432/test'
         config['app:main']['sqlalchemy.url'] = connection_url
         config['alembic']['sqlalchemy.url'] = connection_url
@@ -45,7 +45,7 @@ def alembic_head(request, ini_filepath: str):
     alembic_config = Config(ini_filepath)
 
     # Setup database URL for Codeship
-    if PG_USER and PG_PASSWORD:
+    if PG_USER:
         connection_url = f'postgresql+psycopg2://{PG_USER}:{PG_PASSWORD}@127.0.0.1:5432/test'
         alembic_config.set_main_option('sqlalchemy.url', connection_url)
 
