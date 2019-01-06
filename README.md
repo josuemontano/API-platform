@@ -96,6 +96,13 @@ dokku config:set --no-restart canopus DOKKU_LETSENCRYPT_EMAIL=
 dokku letsencrypt canopus
 ```
 
+## Console access
+
+```
+dokku run canopus bash
+poetry run pshell production.ini
+```
+
 ## TODOS
 
 - [ ] Setup better logging
