@@ -63,7 +63,11 @@ git remote add production dokku@ip:canopus
 wget https://raw.githubusercontent.com/dokku/dokku/v0.13.4/bootstrap.sh
 sudo DOKKU_TAG=v0.13.4 bash bootstrap.sh
 
-# Create the dokku app
+# Allow HTTP and HTTPS connections, if don't use iptables you should
+sudo iptables -I INPUT -p tcp --dport 80 -j ACCEPT
+sudo iptables -I INPUT -p tcp --dport 443 -j ACCEPT
+
+# Create the Dokku app
 dokku apps:create canopus
 
 # Install PostgreSQL and PostGIS
@@ -75,7 +79,7 @@ export POSTGRES_IMAGE_VERSION="latest"
 dokku postgres:create canopus
 dokku postgres:link canopus canopus
 
-# Install redis
+# Install Redis
 sudo dokku plugin:install https://github.com/dokku/dokku-redis.git redis
 dokku redis:create canopus
 dokku redis:link canopus canopus
