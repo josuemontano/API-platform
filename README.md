@@ -58,6 +58,8 @@ git remote add production dokku@ip:canopus
 
 ## New server instances
 
+For new server instances secure the server (follow these two guides: https://www.ssdnodes.com/SSD_Nodes-The_6_Critical_Steps_to_Secure_Your_Servers.pdf and https://blog.ssdnodes.com/blog/connecting-vps-ssh-security), install dokku and configure the app:
+
 ```sh
 # Install Dokku
 wget https://raw.githubusercontent.com/dokku/dokku/v0.13.4/bootstrap.sh
