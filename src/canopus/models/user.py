@@ -31,5 +31,5 @@ class User(Base, BaseModel):
         return role and role >= Role.ADMIN
 
     @hybrid_property
-    def full_name(self):
+    def name(self):
         return f'{self.first_name} {self.last_name}'
