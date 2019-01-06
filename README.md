@@ -60,8 +60,8 @@ git remote add production dokku@ip:canopus
 
 ```sh
 # Install Dokku
-wget https://raw.githubusercontent.com/dokku/dokku/v0.12.12/bootstrap.sh
-sudo DOKKU_TAG=v0.12.12 bash bootstrap.sh
+wget https://raw.githubusercontent.com/dokku/dokku/v0.13.4/bootstrap.sh
+sudo DOKKU_TAG=v0.13.4 bash bootstrap.sh
 
 # Create the dokku app
 dokku apps:create canopus
