@@ -17,7 +17,7 @@ env:
 
 install:
   - pip install poetry
-  - poetry develop
+  - poetry install
 
 script:
   - poetry run py.test --cov
