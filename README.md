@@ -22,7 +22,7 @@ canopus
 
 ## Getting started
 
-**Important**: Install Python 3.6.x and npm 8.x before proceeding.
+**Important**: Install Python 3.7.x and npm 8.x before proceeding.
 
 ```sh
 # Change directory into your newly created project.
