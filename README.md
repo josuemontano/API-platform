@@ -32,7 +32,7 @@ cd canopus
 pip3 install poetry
 
 # Install the project in editable mode with its testing requirements.
-poetry develop
+poetry install
 npm install
 
 # Run database migrations.
