@@ -1,5 +1,4 @@
 #!/bin/bash
 poetry config settings.virtualenvs.create false
-poetry build --format wheel
-pip install dist/*
+poetry install --no-dev
 poetry run alembic upgrade head
