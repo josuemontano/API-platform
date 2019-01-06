@@ -47,6 +47,3 @@ pytest-cov = "^2.6"
 pytest-mock = "^1.10"
 pytest-randomly = "^1.2"
 WebTest = "^2.0"
-
-[tool.poetry.plugins."paste.app_factory"]
-"main" = "canopus:main"
