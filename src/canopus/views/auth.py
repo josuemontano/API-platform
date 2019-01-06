@@ -16,9 +16,13 @@ class AuthenticatorView:
     def __init__(self, request: Request):
         self.request = request
 
-    def issue_access_token(self, email: str=None, user: User=None):
+    def issue_access_token(self, email: str = None, user: User = None):
         if email:
-            user = self.request.dbsession.query(User).filter_by(email=email, is_enabled=True).one_or_none()
+            user = (
+                self.request.dbsession.query(User)
+                .filter_by(email=email, is_enabled=True)
+                .one_or_none()
+            )
 
         if user:
             now = pendulum.now()
@@ -27,7 +31,11 @@ class AuthenticatorView:
             access_token = self.request.create_jwt_token(user.id, expiration=expire_in)
             user.last_signed_in_at = now
 
-            return dict(user=UserSchema().dump(user), access_token=access_token, expires=expires_at.format(pendulum.constants.ISO8601))
+            return dict(
+                user=UserSchema().dump(user),
+                access_token=access_token,
+                expires=expires_at.format(pendulum.constants.ISO8601),
+            )
         else:
             return HTTPUnprocessableEntity()
 
@@ -37,9 +45,12 @@ class SocialAuthenticatorView(AuthenticatorView):
     def google(self):
         profile_api_url = 'https://www.googleapis.com/plus/v1/people/me/openIdConnect'
         profile = self.fetch_profile_from_provider(profile_api_url)
-        email = profile['email']
 
-        return self.issue_access_token(email=email)
+        if 'email' in profile:
+            email = profile['email']
+            return self.issue_access_token(email=email)
+        else:
+            return HTTPUnprocessableEntity()
 
     @view_config(route_name='auth-windows')
     def windows(self):

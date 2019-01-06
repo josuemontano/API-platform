@@ -27,11 +27,15 @@ class CollectionQueryBuilder:
 
     def search(self, query: Query):
         params = self.params
-        search_text = params['search'].replace('.', ' ').strip() if 'search' in params else None
+        search_text = (
+            params['search'].replace('.', ' ').strip() if 'search' in params else None
+        )
 
         if search_text:
             search_by, search_query = self.get_search_query(search_text)
-            search_expression = self.get_search_vector_for_field(query, search_by, search_query)
+            search_expression = self.get_search_vector_for_field(
+                query, search_by, search_query
+            )
 
             if type(search_expression) is Query:
                 return search_expression
@@ -79,4 +83,4 @@ class CollectionQueryBuilder:
         return None
 
     def get_default_sort_column(self):
-        return (getattr(self.model, 'name', None), )
+        return (getattr(self.model, 'name', None),)

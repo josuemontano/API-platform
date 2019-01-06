@@ -6,7 +6,12 @@ from ..models import Post
 from ..schema import PostSchema
 
 
-@resource(collection_path='/api/v1/posts', path='/api/v1/posts/{id}', factory=RootFactory, permission='view')
+@resource(
+    collection_path='/api/v1/posts',
+    path='/api/v1/posts/{id}',
+    factory=RootFactory,
+    permission='view',
+)
 class PostsView(BaseView):
     model = Post
     model_schema = PostSchema()

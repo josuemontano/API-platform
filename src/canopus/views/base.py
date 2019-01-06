@@ -18,14 +18,18 @@ class BaseView:
         self.dbsession = request.dbsession
         self.current_user = request.user
 
-    @use_args({
-        'page': fields.Int(missing=1),
-        'per_page': fields.Int(missing=25),
-        'search': fields.String(),
-        'sort_by': fields.String()
-    })
+    @use_args(
+        {
+            'page': fields.Int(missing=1),
+            'per_page': fields.Int(missing=25),
+            'search': fields.String(),
+            'sort_by': fields.String(),
+        }
+    )
     def collection_get(self, args):
-        query_builder = self.query_builder(self.model, self.dbsession, self.current_user, args)
+        query_builder = self.query_builder(
+            self.model, self.dbsession, self.current_user, args
+        )
         query, page, total = query_builder.build()
 
         items = self.collection_schema.dump(query.all())
@@ -75,6 +79,8 @@ class BaseView:
         extra_attrs.update(self.request.json)
 
         try:
-            return self.schema.load(extra_attrs, instance=instance, session=self.dbsession)
+            return self.schema.load(
+                extra_attrs, instance=instance, session=self.dbsession
+            )
         except ValidationError as error:
             raise HTTPBadRequest(json_body=error.messages)
