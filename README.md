@@ -86,6 +86,10 @@ sudo dokku plugin:install https://github.com/dokku/dokku-redis.git redis
 dokku redis:create canopus
 dokku redis:link canopus canopus
 
+# Install and configure the rollbar notifier (optional)
+sudo dokku plugin:install https://github.com/iloveitaly/dokku-rollbar.git
+dokku config:set metropolitan ROLLBAR_TOKEN=
+
 # Configure env variables
 dokku config:set canopus JWT_SECRET=
 dokku config:set canopus APP_CONFIG_FILE=production.ini
